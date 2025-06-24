@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}Fayvad Geosolutions Ltd - Leaders in Geospatial Innovation. Precision surveying, GIS development, drone mapping, and environmental intelligence in Kenya.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}GIS, land surveying, drone mapping, geospatial solutions, Kenya, precision, innovation{% endblock %}">
+    <meta name="author" content="Fayvad Geosolutions Ltd">
+    
+    <title>{% block title %}Fayvad Geosolutions - Leaders in Geospatial Innovation{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/icons/favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/icons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/icons/favicon-16x16.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/icons/apple-touch-icon.png' %}">
+     <!-- For better branding, add Open Graph and Twitter Card meta tags -->
+    <meta property="og:image" content="{% static 'images/logo/fayvad-logo-og.png' %}">
+    <meta property="og:title" content="{% block og_title %}Fayvad Geosolutions - Leaders in Geospatial Innovation{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ meta_description }}{% endblock %}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{% static 'images/logo/fayvad-logo-og.png' %}">
+   
+    <!-- Stylesheets -->
+    <!-- In your base.html head section -->
+    <!-- link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"-->    
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Achievement Banner -->
+        <div class="achievement-banner">
+            🏆 Winner: 2025 ISK Land Surveyors Excellence Award - Leading GIS Innovation in Kenya
+        </div>
+
+        <!-- Header -->
+        <header class="main-header">
+            <nav class="container">
+                <div class="navbar">
+                    <a href="{% url 'core:home' %}" class="navbar-brand">
+                        <img src="{% static 'images/logo/fayvad-logo-light.png' %}" 
+                             alt="Fayvad Geosolutions" 
+                             class="brand-logo"
+                             loading="eager">
+                        <span class="brand-text">Fayvad Geosolutions</span>
+                    </a>
+                    
+                    <!-- Rest of your navigation remains the same -->
+                    <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    
+                    <ul class="navbar-nav">
+                        <li><a href="{% url 'core:home' %}" class="nav-link">Home</a></li>
+                        <li><a href="{% url 'services:list' %}" class="nav-link">Services</a></li>
+                        <li><a href="{% url 'portfolio:projects' %}" class="nav-link">Portfolio</a></li>
+                        <li><a href="{% url 'blog:list' %}" class="nav-link">Insights</a></li>
+                        <li><a href="{% url 'core:about' %}" class="nav-link">About</a></li>
+                        <li><a href="{% url 'core:contact' %}" class="nav-link">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <style>
+            .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            flex-direction: row !important;
+            gap: 0.5rem !important;
+            white-space: nowrap !important;
+        }
+
+        .brand-logo {
+            height: 32px;
+            width: 32px;
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            flex-shrink: 0;
+        }
+        </style>
+        <!-- Main Content -->
+        <main class="main-content">
+            {% if messages %}
+                <div class="container">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible">
+                            {{ message }}
+                            <button type="button" class="btn-close" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <div class="footer-brand">
+                            <img src="{% static 'images/logo/fayvad-logo-light.png' %}" 
+                                 alt="Fayvad Geosolutions" 
+                                 class="footer-logo"
+                                 loading="lazy">
+                            <h4>Fayvad Geosolutions</h4>
+                        </div>
+                        <p>Leaders in Geospatial Innovation</p>
+                        <p>Empowering Kenya's future through advanced surveying, predictive analytics, and cutting-edge geospatial technologies.</p>
+                        <div class="social-links">
+                            <a href="https://facebook.com/fayvadltd" target="_blank" aria-label="Facebook">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="https://linkedin.com/company/fayvadltd" target="_blank" aria-label="LinkedIn">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                            <a href="https://twitter.com/fayvadltd" target="_blank" aria-label="Twitter">
+                                <i class="bi bi-twitter"></i>
+                            </a>
+                        </div>
+                    </div>                    
+                    <div class="footer-section">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="{% url 'services:land_surveying' %}">Land Surveying</a></li>
+                            <li><a href="{% url 'services:gis_development' %}">GIS Development</a></li>
+                            <li><a href="{% url 'services:drone_mapping' %}">Drone Mapping</a></li>
+                            <li><a href="{% url 'services:environmental' %}">Environmental Intelligence</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="{% url 'core:about' %}">About Us</a></li>
+                            <li><a href="{% url 'portfolio:projects' %}">Our Work</a></li>
+                            <li><a href="{% url 'blog:list' %}">Insights & Innovation</a></li>
+                            <li><a href="{% url 'core:contact' %}">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Contact Info</h4>
+                        <div class="contact-info">
+                            <p><i class="bi bi-geo-alt"></i> Grace House 3rd Floor Suite 10<br>Nkuruma Road, Thika, Kenya</p>
+                            <p><i class="bi bi-telephone"></i> +254 769 069 640</p>
+                            <p><i class="bi bi-envelope"></i> services@geo.fayvad.com</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content">
+                        <p>&copy; {% now "Y" %} Fayvad Geosolutions Ltd. All rights reserved | 
+                                                    Site done by: 
+                            <a href="https://digital.fayvad.com" target="_blank" rel="noopener noreferrer" class="credit-link">
+                                Fayvad Digital
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>            
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/utils.js' %}"></script>
+    <script src="{% static 'js/components.js' %}"></script>
+    <script src="{% static 'js/base.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

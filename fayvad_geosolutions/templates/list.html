@@ -1,0 +1,536 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Services - Comprehensive Geospatial Solutions{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<!-- Services Hero Section -->
+<section class="services-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="display-4">{{ page_title }}</h1>
+            <p class="lead">Comprehensive geospatial solutions powered by cutting-edge technology and expert knowledge. From precision surveying to advanced GIS development, we deliver excellence in every project.</p>
+            
+            <div class="services-overview">
+                <div class="overview-stat">
+                    <span class="stat-number">6</span>
+                    <div class="stat-label">Core Services</div>
+                </div>
+                <div class="overview-stat">
+                    <span class="stat-number">25+</span>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="overview-stat">
+                    <span class="stat-number">100%</span>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+            
+            <div class="cta-buttons">
+                <a href="#services" class="btn btn-secondary">Explore Services</a>
+                <a href="{% url 'core:contact' %}" class="btn btn-outline">Get Consultation</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Services -->
+{% if featured_services %}
+<section class="section featured-services">
+    <div class="container">
+        <h2 class="section-title">Featured Services</h2>
+        <p class="text-center text-muted mb-5">Our most popular and specialized services</p>
+        
+        <div class="services-grid">
+            {% for service in featured_services %}
+            <div class="service-card featured">
+                <div class="service-header">
+                    <div class="service-icon">{{ service.icon }}</div>
+                    <h3 class="service-title">{{ service.name }}</h3>
+                    <p class="service-description">{{ service.short_description }}</p>
+                </div>
+                
+                {% if service.price_range or service.duration_range %}
+                <div class="service-meta">
+                    {% if service.price_range %}
+                    <div class="meta-item">
+                        <span class="meta-label">Investment</span>
+                        <span class="meta-value">{{ service.price_range }}</span>
+                    </div>
+                    {% endif %}
+                    {% if service.duration_range %}
+                    <div class="meta-item">
+                        <span class="meta-label">Timeline</span>
+                        <span class="meta-value">{{ service.duration_range }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                <div class="service-actions">
+                    <a href="{{ service.get_absolute_url }}" class="btn-service">Learn More</a>
+                    <a href="{{ service.get_absolute_url }}#inquiry" class="btn-service secondary">Get Quote</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- All Services by Category -->
+<section id="services" class="section">
+    <div class="container">
+        <h2 class="section-title">All Services</h2>
+        
+        <!-- Filter tabs could be added here if needed -->
+        <!-- <div class="filter-tabs">
+            <a href="#" class="filter-tab active" data-filter="all">All Services</a>
+            <a href="#" class="filter-tab" data-filter="core">Core Services</a>
+            <a href="#" class="filter-tab" data-filter="specialized">Specialized</a>
+        </div> -->
+        
+        {% for category in categories %}
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">{{ category.icon }}</div>
+                <h3 class="category-name">{{ category.name }}</h3>
+                <p class="category-description">{{ category.description }}</p>
+            </div>
+            
+            <div class="services-grid">
+                {% for service in category.services.all %}
+                <div class="service-card {% if service.is_featured %}featured{% endif %}">
+                    <div class="service-header">
+                        <div class="service-icon">{{ service.icon }}</div>
+                        <h4 class="service-title">{{ service.name }}</h4>
+                        <p class="service-description">{{ service.short_description }}</p>
+                    </div>
+                    
+                    {% if service.price_range or service.duration_range %}
+                    <div class="service-meta">
+                        {% if service.price_range %}
+                        <div class="meta-item">
+                            <span class="meta-label">Investment</span>
+                            <span class="meta-value">{{ service.price_range }}</span>
+                        </div>
+                        {% endif %}
+                        {% if service.duration_range %}
+                        <div class="meta-item">
+                            <span class="meta-label">Timeline</span>
+                            <span class="meta-value">{{ service.duration_range }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="service-actions">
+                        <a href="{{ service.get_absolute_url }}" class="btn-service">Learn More</a>
+                        <a href="{{ service.get_absolute_url }}#inquiry" class="btn-service secondary">Get Quote</a>
+                    </div>
+                </div>
+                {% empty %}
+                <!-- Default services if none in database -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">📏</div>
+                        <h3>Land Surveying</h3>
+                    </div>
+                    <div class="service-content">
+                        <p class="service-description">Precision surveying with sub-centimeter accuracy using advanced GNSS and total station technology.</p>
+                        <div class="service-features">
+                            <h5>Key Features:</h5>
+                            <ul>
+                                <li>Boundary surveys and demarcation</li>
+                                <li>Topographic mapping and contouring</li>
+                                <li>Construction layout and as-built surveys</li>
+                                <li>GPS control networks</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="{% url 'services:land_surveying' %}" class="btn btn-primary">Learn More</a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline">Get Quote</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">💻</div>
+                        <h3>GIS Development</h3>
+                    </div>
+                    <div class="service-content">
+                        <p class="service-description">Custom GIS applications and spatial analysis solutions for complex geospatial challenges.</p>
+                        <div class="service-features">
+                            <h5>Key Features:</h5>
+                            <ul>
+                                <li>Web-based GIS applications</li>
+                                <li>Spatial database design</li>
+                                <li>Advanced spatial analysis</li>
+                                <li>Enterprise GIS solutions</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="{% url 'services:gis_development' %}" class="btn btn-primary">Learn More</a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline">Get Quote</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">🚁</div>
+                        <h3>Drone Mapping</h3>
+                    </div>
+                    <div class="service-content">
+                        <p class="service-description">High-resolution aerial surveys and 3D modeling using advanced UAV technology and sensors.</p>
+                        <div class="service-features">
+                            <h5>Key Features:</h5>
+                            <ul>
+                                <li>Orthophoto generation</li>
+                                <li>Digital elevation models</li>
+                                <li>3D modeling and visualization</li>
+                                <li>Progress monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="service-actions">
+                        <a href="{% url 'services:drone_mapping' %}" class="btn btn-primary">Learn More</a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline">Get Quote</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Start Your Project?</h2>
+            <p>Contact us today for a free consultation and project quote.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'core:contact' %}" class="btn btn-secondary btn-lg">Get Free Quote</a>
+                <a href="tel:+254769069640" class="btn btn-outline btn-lg">Call +254 769 069 640</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .services-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .services-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><circle fill="%23e6f3ff" cx="200" cy="150" r="80" opacity="0.3"/><circle fill="%23cce7ff" cx="600" cy="100" r="120" opacity="0.2"/><circle fill="%23b3dbff" cx="1000" cy="200" r="100" opacity="0.25"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .services-overview {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .overview-stat {
+        text-align: center;
+        padding: 1.5rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ffd700;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+        color: white;
+        opacity: 0.9;
+    }
+    
+    .category-section {
+        margin: 4rem 0;
+    }
+    
+    .category-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .category-icon {
+        font-size: 3rem;
+        color: #1e3c72;
+        margin-bottom: 1rem;
+    }
+    
+    .category-name {
+        color: #1e3c72;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .category-description {
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+    
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .service-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border-top: 4px solid #1e3c72;
+        position: relative;
+    }
+    
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .service-card.featured {
+        border-top-color: #ffd700;
+    }
+    
+    .service-card.featured::before {
+        content: '⭐ Featured';
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #ffd700;
+        color: #1e3c72;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        z-index: 2;
+    }
+    
+    .service-header {
+        padding: 2rem 2rem 1rem;
+        text-align: center;
+    }
+    
+    .service-icon {
+        font-size: 3rem;
+        color: #1e3c72;
+        margin-bottom: 1rem;
+    }
+    
+    .service-title {
+        color: #1e3c72;
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+    
+    .service-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .service-meta {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 2rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .meta-item {
+        text-align: center;
+    }
+    
+    .meta-label {
+        color: #999;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+    
+    .meta-value {
+        color: #1e3c72;
+        font-weight: 500;
+    }
+    
+    .service-actions {
+        padding: 1.5rem 2rem 2rem;
+        text-align: center;
+        border-top: 1px solid #f0f0f0;
+    }
+    
+    .btn-service {
+        background: #1e3c72;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin: 0.25rem;
+        display: inline-block;
+    }
+    
+    .btn-service:hover {
+        background: #ffd700;
+        color: #1e3c72;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+    
+    .btn-service.secondary {
+        background: transparent;
+        color: #1e3c72;
+        border: 2px solid #1e3c72;
+    }
+    
+    .btn-service.secondary:hover {
+        background: #1e3c72;
+        color: white;
+    }
+    
+    .featured-services {
+        background: #f8fafc;
+    }
+    
+    .service-content {
+        padding: 0 2rem 1rem;
+    }
+    
+    .service-features h5 {
+        color: #1e3c72;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+    
+    .service-features ul {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 1.5rem;
+    }
+    
+    .service-features li {
+        padding: 0.25rem 0;
+        color: #666;
+        position: relative;
+        padding-left: 1.5rem;
+    }
+    
+    .service-features li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: #ffd700;
+        font-weight: bold;
+    }
+    
+    .cta-section {
+        background: #f8fafc;
+        padding: 4rem 0;
+        text-align: center;
+        margin-top: 4rem;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn {
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+    
+    .btn-secondary {
+        background: #ffd700;
+        color: #1e3c72;
+    }
+    
+    .btn-secondary:hover {
+        background: #e6c200;
+        color: #1e3c72;
+        text-decoration: none;
+    }
+    
+    .btn-outline {
+        background: transparent;
+        color: #1e3c72;
+        border: 2px solid #1e3c72;
+    }
+    
+    .btn-outline:hover {
+        background: #1e3c72;
+        color: white;
+        text-decoration: none;
+    }
+    
+    @media (max-width: 768px) {
+        .services-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .service-actions {
+            flex-direction: column;
+        }
+        
+        .services-overview {
+            grid-template-columns: 1fr;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+{% endblock %}

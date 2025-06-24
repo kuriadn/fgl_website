@@ -1,0 +1,566 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Fayvad Geosolutions{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="compare-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Compare Services</h1>
+            <p class="hero-subtitle">Side-by-side comparison to find the right solution for your needs</p>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison Section -->
+<section class="comparison-section">
+    <div class="container">
+        {% if services|length > 1 %}
+            <div class="comparison-controls">
+                <a href="{% url 'services:list' %}" class="back-link">
+                    <i class="bi bi-arrow-left"></i> Back to All Services
+                </a>
+                <form method="get" action="{% url 'services:compare' %}" class="services-select-form">
+                    <label for="services-select">Add another service:</label>
+                    <select id="services-select" class="form-select">
+                        <option value="">Select a service...</option>
+                        {% for available_service in all_services|default:'' %}
+                            {% if available_service not in services %}
+                            <option value="{{ available_service.slug }}">{{ available_service.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button type="button" id="add-service-btn" class="btn btn-sm btn-primary">Add</button>
+                </form>
+            </div>
+            
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th class="feature-column">Feature</th>
+                            {% for service in services %}
+                            <th class="service-column">
+                                <div class="service-header">
+                                    {% if service.icon_class %}
+                                    <div class="service-icon"><i class="bi {{ service.icon_class }}"></i></div>
+                                    {% else %}
+                                    <div class="service-icon">{{ service.icon|default:"🗺️" }}</div>
+                                    {% endif %}
+                                    <h3>{{ service.name }}</h3>
+                                </div>
+                                <div class="service-actions">
+                                    <a href="{{ service.get_absolute_url }}" class="btn btn-sm btn-outline-primary">View Details</a>
+                                    <a href="{% url 'services:compare' %}?services={% for s in services %}{% if s.id != service.id %}{{ s.slug }}{% if not forloop.last %},{% endif %}{% endif %}{% endfor %}" class="remove-service" title="Remove from comparison">
+                                        <i class="bi bi-x-circle"></i>
+                                    </a>
+                                </div>
+                            </th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Description Row -->
+                        <tr>
+                            <td class="feature-name">Description</td>
+                            {% for service in services %}
+                            <td>{{ service.short_description }}</td>
+                            {% endfor %}
+                        </tr>
+                        
+                        <!-- Price Range Row -->
+                        <tr>
+                            <td class="feature-name">Price Range</td>
+                            {% for service in services %}
+                            <td>{{ service.price_range|default:"Contact for pricing" }}</td>
+                            {% endfor %}
+                        </tr>
+                        
+                        <!-- Duration Row -->
+                        <tr>
+                            <td class="feature-name">Typical Duration</td>
+                            {% for service in services %}
+                            <td>{{ service.duration_range|default:"Varies by project" }}</td>
+                            {% endfor %}
+                        </tr>
+                        
+                        <!-- Category Row -->
+                        <tr>
+                            <td class="feature-name">Category</td>
+                            {% for service in services %}
+                            <td>{{ service.category.name|default:"General" }}</td>
+                            {% endfor %}
+                        </tr>
+                        
+                        <!-- Features Row -->
+                        <tr>
+                            <td class="feature-name">Key Features</td>
+                            {% for service in services %}
+                            <td>
+                                {% if service.key_features %}
+                                <ul class="feature-list">
+                                    {% for feature in service.key_features %}
+                                    <li><i class="bi bi-check-circle-fill"></i> {{ feature }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <p>Contact us for feature details</p>
+                                {% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        
+                        <!-- Deliverables Row -->
+                        <tr>
+                            <td class="feature-name">Deliverables</td>
+                            {% for service in services %}
+                            <td>
+                                {% if service.deliverables %}
+                                <ul class="feature-list">
+                                    {% for deliverable in service.deliverables %}
+                                    <li><i class="bi bi-file-earmark-check"></i> {{ deliverable }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <p>Contact us for deliverable details</p>
+                                {% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        
+                        <!-- Technologies Row -->
+                        <tr>
+                            <td class="feature-name">Technologies</td>
+                            {% for service in services %}
+                            <td>
+                                {% if service.technologies %}
+                                <div class="tech-tags">
+                                    {% for tech in service.technologies %}
+                                    <span class="tech-tag">{{ tech }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <p>Contact us for technology details</p>
+                                {% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        
+                        <!-- Case Studies Row -->
+                        <tr>
+                            <td class="feature-name">Case Studies</td>
+                            {% for service in services %}
+                            <td>
+                                {% if service.case_studies.all %}
+                                <ul class="feature-list">
+                                    {% for case_study in service.case_studies.all|slice:":2" %}
+                                    <li>
+                                        <a href="{% url 'services:case_study' service.slug case_study.slug %}">
+                                            {{ case_study.title }}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <p>No case studies available</p>
+                                {% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        
+                        <!-- Action Row -->
+                        <tr class="action-row">
+                            <td class="feature-name">Get Started</td>
+                            {% for service in services %}
+                            <td>
+                                <a href="{{ service.get_absolute_url }}#inquiry-form" class="btn btn-primary">Request Quote</a>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="no-services">
+                <div class="no-services-icon">
+                    <i class="bi bi-table"></i>
+                </div>
+                <h3>No services selected for comparison</h3>
+                <p>Please select at least two services to compare.</p>
+                <a href="{% url 'services:list' %}" class="btn btn-primary">Browse Services</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Need Help Section -->
+<section class="help-section bg-light">
+    <div class="container">
+        <div class="help-content">
+            <h2 class="section-title">Need Help Choosing?</h2>
+            <p>Our team can help you determine the best service for your specific needs and project requirements.</p>
+            <div class="help-actions">
+                <a href="{% url 'core:contact' %}" class="btn btn-primary">Contact Us</a>
+                <a href="tel:+254769069640" class="btn btn-outline">
+                    <i class="bi bi-telephone"></i> Call +254 769 069 640
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .compare-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 100px 0 70px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .compare-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><polygon fill="%23e6f3ff" points="0,200 300,150 600,180 900,120 1200,160 1200,400 0,400" opacity="0.3"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .comparison-section {
+        padding: 60px 0;
+    }
+    
+    .comparison-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #1e3c72;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .back-link:hover {
+        color: #ffd700;
+    }
+    
+    .services-select-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .form-select {
+        min-width: 200px;
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+    
+    .comparison-table-wrapper {
+        overflow-x: auto;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        border-radius: 10px;
+    }
+    
+    .comparison-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: white;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 15px;
+        border-bottom: 1px solid #f0f4f8;
+        vertical-align: top;
+    }
+    
+    .feature-column {
+        width: 200px;
+        text-align: left;
+        background: #f8f9fa;
+        position: sticky;
+        left: 0;
+        z-index: 1;
+    }
+    
+    .service-column {
+        min-width: 250px;
+        text-align: center;
+    }
+    
+    .service-header {
+        margin-bottom: 15px;
+    }
+    
+    .service-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin: 0 auto 10px;
+    }
+    
+    .service-header h3 {
+        font-size: 1.3rem;
+        color: #1e3c72;
+    }
+    
+    .service-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .remove-service {
+        color: #dc3545;
+        font-size: 1.1rem;
+    }
+    
+    .remove-service:hover {
+        color: #bd2130;
+    }
+    
+    .feature-name {
+        font-weight: 600;
+        color: #1e3c72;
+        background: #f8f9fa;
+        position: sticky;
+        left: 0;
+        z-index: 1;
+    }
+    
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+    }
+    
+    .feature-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    
+    .feature-list li i {
+        color: #28a745;
+        font-size: 1rem;
+        margin-top: 3px;
+    }
+    
+    .action-row td {
+        border-bottom: none;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    
+    .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    
+    .tech-tag {
+        background: #f0f4f8;
+        color: #1e3c72;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .no-services {
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .no-services-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 25px;
+    }
+    
+    .no-services h3 {
+        color: #1e3c72;
+        margin-bottom: 15px;
+    }
+    
+    .no-services p {
+        color: #666;
+        max-width: 500px;
+        margin: 0 auto 25px;
+    }
+    
+    .help-section {
+        padding: 60px 0;
+    }
+    
+    .help-content {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .help-content p {
+        color: #555;
+        margin-bottom: 30px;
+    }
+    
+    .help-actions {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+        .comparison-controls {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        
+        .services-select-form {
+            width: 100%;
+        }
+        
+        .form-select {
+            flex-grow: 1;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .help-actions {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .hero-title {
+            font-size: 2.2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle adding a service to comparison
+        const serviceSelect = document.getElementById('services-select');
+        const addServiceBtn = document.getElementById('add-service-btn');
+        
+        if (serviceSelect && addServiceBtn) {
+            addServiceBtn.addEventListener('click', function() {
+                const selectedValue = serviceSelect.value;
+                if (selectedValue) {
+                    // Get current URL
+                    const currentUrl = new URL(window.location.href);
+                    const searchParams = currentUrl.searchParams;
+                    
+                    // Get current services parameter
+                    let services = searchParams.get('services') || '';
+                    
+                    // Add the new service
+                    if (services) {
+                        services += ',' + selectedValue;
+                    } else {
+                        services = selectedValue;
+                    }
+                    
+                    // Update URL and redirect
+                    searchParams.set('services', services);
+                    currentUrl.search = searchParams.toString();
+                    window.location.href = currentUrl.toString();
+                }
+            });
+            
+            // Also handle Enter key in select
+            serviceSelect.addEventListener('change', function() {
+                if (this.value) {
+                    addServiceBtn.click();
+                }
+            });
+        }
+        
+        // Make the table cells in each row have equal height
+        function equalizeRowHeights() {
+            const table = document.querySelector('.comparison-table');
+            if (table) {
+                const rows = table.querySelectorAll('tbody tr');
+                
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    let maxHeight = 0;
+                    
+                    // Reset heights
+                    cells.forEach(cell => {
+                        cell.style.height = 'auto';
+                        const height = cell.offsetHeight;
+                        maxHeight = Math.max(maxHeight, height);
+                    });
+                    
+                    // Set equal heights
+                    cells.forEach(cell => {
+                        cell.style.height = maxHeight + 'px';
+                    });
+                });
+            }
+        }
+        
+        // Run on load and resize
+        equalizeRowHeights();
+        window.addEventListener('resize', equalizeRowHeights);
+    });
+</script>
+{% endblock %}

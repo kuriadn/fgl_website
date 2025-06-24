@@ -1,0 +1,1624 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fayvad Geosolutions - Leaders in Geospatial Innovation{% endblock %}
+
+{% block meta_description %}Empowering Kenya's future through advanced surveying, predictive analytics, and cutting-edge geospatial technologies. From national infrastructure to precision agriculture, we deliver research-grade solutions.{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Compact Stats Row */
+    .stats-compact {
+        background: rgba(0,0,0,0.2);
+        padding: 1rem 0;
+        margin-top: 2rem;
+    }
+    
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .stat-compact {
+        text-align: center;
+        color: white;
+    }
+    
+    .stat-compact .number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffd700;
+        display: block;
+    }
+    
+    .stat-compact .label {
+        font-size: 0.8rem;
+        opacity: 0.9;
+        margin-top: 0.25rem;
+    }
+    
+    /* Technology Stack Section */
+    .tech-showcase {
+        background: #f8fafc;
+        padding: 3rem 0;
+    }
+    
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .tech-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .tech-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .tech-icon {
+        font-size: 2rem;
+        color: #1e3c72;
+        margin-bottom: 0.5rem;
+    }
+    
+    .tech-name {
+        font-weight: bold;
+        color: #1e3c72;
+        font-size: 0.9rem;
+    }
+    
+    /* Process Flow Section */
+    .process-section {
+        padding: 4rem 0;
+    }
+    
+    .process-flow {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        margin-top: 3rem;
+        position: relative;
+    }
+    
+    .process-flow::before {
+        content: '';
+        position: absolute;
+        top: 3rem;
+        left: 12.5%;
+        right: 12.5%;
+        height: 2px;
+        background: linear-gradient(90deg, #1e3c72, #ffd700, #1e3c72);
+        z-index: 0;
+    }
+    
+    .process-step {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .step-circle {
+        width: 6rem;
+        height: 6rem;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);
+    }
+    
+    .step-title {
+        color: #1e3c72;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .step-description {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    /* Achievement Grid */
+    .achievements-section {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+        padding: 4rem 0;
+    }
+
+    .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .achievement-item {
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+    }
+    
+    .achievement-icon {
+        font-size: 3rem;
+        color: #ffd700;
+        margin-bottom: 1rem;
+    }
+    
+    .achievement-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .achievement-description {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    /* Enhanced Services Grid */
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .service-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2.5rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border-top: 4px solid #1e3c72;
+    }
+    
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        border-top-color: #ffd700;
+    }
+    
+    .service-icon {
+        font-size: 3rem;
+        color: #1e3c72;
+        margin-bottom: 1.5rem;
+    }
+    
+    .service-title {
+        color: #1e3c72;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+    
+    .service-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .service-features {
+        margin-bottom: 2rem;
+    }
+    
+    .feature-tag {
+        display: inline-block;
+        background: #e8f1ff;
+        color: #1e3c72;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        margin: 0.25rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .stats-row {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .process-flow {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .process-flow::before {
+            display: none;
+        }
+        
+        .tech-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .stats-row {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .process-flow {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .tech-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .achievements-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .services-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+<style>
+    /* Compact Stats Row */
+    .stats-compact {
+        background: rgba(0,0,0,0.2);
+        padding: 1rem 0;
+        margin-top: 2rem;
+    }
+    
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .stat-compact {
+        text-align: center;
+        color: white;
+    }
+    
+    .stat-compact .number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffd700;
+        display: block;
+    }
+    
+    .stat-compact .label {
+        font-size: 0.8rem;
+        opacity: 0.9;
+        margin-top: 0.25rem;
+    }
+    
+    /* Expertise Banner */
+    .expertise-banner {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .expertise-banner::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><circle fill="%23ffffff" cx="200" cy="100" r="80" opacity="0.1"/><circle fill="%23ffffff" cx="800" cy="150" r="120" opacity="0.05"/><circle fill="%23ffffff" cx="1000" cy="250" r="100" opacity="0.08"/></svg>');
+        opacity: 0.3;
+    }
+    
+    .banner-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+    }
+    
+    .banner-header {
+        margin-bottom: 4rem;
+    }
+    
+    .banner-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        color: #ffd700;
+    }
+    
+    .banner-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+    
+    .banner-subtitle {
+        font-size: 1.2rem;
+        line-height: 1.7;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.95;
+    }
+    
+    .why-choose-section {
+        background: rgba(255,255,255,0.1);
+        padding: 3rem;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .why-choose-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 2.5rem;
+        color: #ffd700;
+    }
+    
+    .advantages-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .advantage-item {
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255,255,255,0.05);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .advantage-item:hover {
+        transform: translateY(-5px);
+        background: rgba(255,255,255,0.15);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+    
+    .advantage-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #ffd700;
+    }
+    
+    .advantage-item h4 {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: white;
+    }
+    
+    .advantage-item p {
+        color: rgba(255,255,255,0.9);
+        font-size: 0.95rem;
+        margin: 0;
+    }
+    .stats-compact {
+        background: rgba(0,0,0,0.2);
+        padding: 1rem 0;
+        margin-top: 2rem;
+    }
+    
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .stat-compact {
+        text-align: center;
+        color: white;
+    }
+    
+    .stat-compact .number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffd700;
+        display: block;
+    }
+    
+    .stat-compact .label {
+        font-size: 0.8rem;
+        opacity: 0.9;
+        margin-top: 0.25rem;
+    }
+    
+    /* Technology Stack Section */
+    .tech-showcase {
+        background: #f8fafc;
+        padding: 3rem 0;
+    }
+    
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .tech-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .tech-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .tech-icon {
+        font-size: 2rem;
+        color: #1e3c72;
+        margin-bottom: 0.5rem;
+    }
+    
+    .tech-name {
+        font-weight: bold;
+        color: #1e3c72;
+        font-size: 0.9rem;
+    }
+    
+    /* Process Flow Section */
+    .process-section {
+        padding: 4rem 0;
+    }
+    
+    .process-flow {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        margin-top: 3rem;
+        position: relative;
+    }
+    
+    .process-flow::before {
+        content: '';
+        position: absolute;
+        top: 3rem;
+        left: 12.5%;
+        right: 12.5%;
+        height: 2px;
+        background: linear-gradient(90deg, #1e3c72, #ffd700, #1e3c72);
+        z-index: 0;
+    }
+    
+    .process-step {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .step-circle {
+        width: 6rem;
+        height: 6rem;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);
+    }
+    
+    .step-title {
+        color: #1e3c72;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .step-description {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    /* Achievement Grid */
+    .achievements-section {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+        padding: 4rem 0;
+    }
+    
+    .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .achievement-item {
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+    }
+    
+    .achievement-icon {
+        font-size: 3rem;
+        color: #ffd700;
+        margin-bottom: 1rem;
+    }
+    
+    .achievement-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .achievement-description {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    /* Enhanced Services Grid */
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .service-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2.5rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        border-top: 4px solid #1e3c72;
+    }
+    
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        border-top-color: #ffd700;
+    }
+    
+    .service-icon {
+        font-size: 3rem;
+        color: #1e3c72;
+        margin-bottom: 1.5rem;
+    }
+    
+    .service-title {
+        color: #1e3c72;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+    
+    .service-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .service-features {
+        margin-bottom: 2rem;
+    }
+    
+    .feature-tag {
+        display: inline-block;
+        background: #e8f1ff;
+        color: #1e3c72;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        margin: 0.25rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .stats-row {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .process-flow {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .process-flow::before {
+            display: none;
+        }
+        
+        .tech-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .advantages-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .banner-title {
+            font-size: 2.5rem;
+        }
+        
+        .why-choose-section {
+            padding: 2rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .stats-row {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .process-flow {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .tech-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .achievements-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .services-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .expertise-banner {
+            padding: 3rem 0;
+        }
+        
+        .banner-title {
+            font-size: 2rem;
+        }
+        
+        .banner-subtitle {
+            font-size: 1.1rem;
+        }
+        
+        .why-choose-section {
+            padding: 1.5rem;
+        }
+        
+        .advantages-grid {
+            gap: 1rem;
+        }
+        
+        .advantage-item {
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<!-- Hero Carousel Section -->
+<!-- Hero Carousel Section (No Bootstrap Required) -->
+<section class="hero-carousel">
+    <div class="carousel-container">
+        <!-- Slide 1: Nairobi Skyline -->
+        <div class="hero-slide active" data-bg="{% static 'images/hero/nairobi-skyline.jpg' %}">
+            <div class="slide-overlay"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Leaders in Geospatial Innovation</h1>
+                    <p class="hero-subtitle">Precision. Innovation. Impact.</p>
+                    <p class="hero-description">
+                        Empowering Kenya's future through advanced surveying, predictive analytics, and cutting-edge geospatial technologies.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'services:list' %}" class="btn btn-primary btn-lg">Our Services</a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-secondary btn-lg">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 2: Acacia Sunset -->
+        <div class="hero-slide" data-bg="{% static 'images/hero/acacia-sunset.jpg' %}">
+            <div class="slide-overlay"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Surveying Excellence Across Kenya</h1>
+                    <p class="hero-subtitle">Professional Land Surveying Services</p>
+                    <p class="hero-description">
+                        From the highlands to the coast, we deliver precision boundary surveys, topographic mapping, and cadastral documentation.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'services:land_surveying' %}" class="btn btn-primary btn-lg">Land Surveying</a>
+                        <a href="{% url 'portfolio:projects' %}" class="btn btn-secondary btn-lg">View Projects</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3: Aerial City View -->
+        <div class="hero-slide" data-bg="{% static 'images/hero/aerial-city.jpg' %}">
+            <div class="slide-overlay"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Advanced Drone Mapping Solutions</h1>
+                    <p class="hero-subtitle">Cutting-edge UAV Technology</p>
+                    <p class="hero-description">
+                        High-resolution aerial surveys, 3D modeling, and precision mapping using state-of-the-art drone technology.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'services:drone_mapping' %}" class="btn btn-primary btn-lg">Drone Services</a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-secondary btn-lg">Request Quote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Arrows -->
+        <button class="carousel-nav prev" onclick="changeSlide(-1)" aria-label="Previous slide">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15,18 9,12 15,6"></polyline>
+            </svg>
+        </button>
+        <button class="carousel-nav next" onclick="changeSlide(1)" aria-label="Next slide">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
+        </button>
+        
+        <!-- Slide Indicators -->
+        <div class="carousel-indicators">
+            <button class="indicator active" onclick="goToSlide(0)" aria-label="Go to slide 1"></button>
+            <button class="indicator" onclick="goToSlide(1)" aria-label="Go to slide 2"></button>
+            <button class="indicator" onclick="goToSlide(2)" aria-label="Go to slide 3"></button>
+        </div>
+    </div>
+    
+    <!-- Compact Stats (keeping your existing stats) -->
+    <div class="stats-compact">
+        <div class="container">
+            <div class="stats-row">
+                <div class="stat-compact">
+                    <span class="number">251+</span>
+                    <div class="label">km Surveyed</div>
+                </div>
+                <div class="stat-compact">
+                    <span class="number">15+</span>
+                    <div class="label">Major Projects</div>
+                </div>
+                <div class="stat-compact">
+                    <span class="number">98%</span>
+                    <div class="label">Client Satisfaction</div>
+                </div>
+                <div class="stat-compact">
+                    <span class="number">8+</span>
+                    <div class="label">Years Excellence</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Hero Carousel Styles - No Bootstrap Dependencies */
+.hero-carousel {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero-slide.active {
+    opacity: 1;
+}
+
+.slide-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(30, 60, 114, 0.8) 0%,
+        rgba(42, 82, 152, 0.6) 50%,
+        rgba(30, 60, 114, 0.8) 100%
+    );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideInUp 0.8s ease-out 0.3s forwards;
+}
+
+.hero-subtitle {
+    font-size: 1.4rem;
+    color: #ffd700;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideInUp 0.8s ease-out 0.6s forwards;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideInUp 0.8s ease-out 0.9s forwards;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideInUp 0.8s ease-out 1.2s forwards;
+}
+
+/* Reset animations when slide changes */
+.hero-slide:not(.active) .hero-title,
+.hero-slide:not(.active) .hero-subtitle,
+.hero-slide:not(.active) .hero-description,
+.hero-slide:not(.active) .hero-buttons {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: none;
+}
+
+.hero-slide.active .hero-title {
+    animation: slideInUp 0.8s ease-out 0.3s forwards;
+}
+
+.hero-slide.active .hero-subtitle {
+    animation: slideInUp 0.8s ease-out 0.6s forwards;
+}
+
+.hero-slide.active .hero-description {
+    animation: slideInUp 0.8s ease-out 0.9s forwards;
+}
+
+.hero-slide.active .hero-buttons {
+    animation: slideInUp 0.8s ease-out 1.2s forwards;
+}
+
+@keyframes slideInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Navigation Arrows */
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.carousel-nav:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-nav.prev {
+    left: 2rem;
+}
+
+.carousel-nav.next {
+    right: 2rem;
+}
+
+/* Slide Indicators */
+.carousel-indicators {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 10;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator:hover,
+.indicator.active {
+    background: #ffd700;
+    border-color: #ffd700;
+    transform: scale(1.2);
+}
+
+/* Stats Section (keeping your existing structure) */
+.stats-compact {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 5;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.stat-compact {
+    text-align: center;
+    color: white;
+}
+
+.stat-compact .number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffd700;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.stat-compact .label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Button Styles (matching your existing design) */
+.btn {
+    padding: 0.75rem 2rem;
+    border-radius: 30px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #ffd700;
+    color: #1e3c72;
+    border-color: #ffd700;
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: #ffd700;
+    border-color: #ffd700;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: white;
+    border-color: white;
+}
+
+.btn-secondary:hover {
+    background: white;
+    color: #1e3c72;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+}
+
+.btn-lg {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+    }
+    
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .carousel-nav {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .carousel-nav.prev {
+        left: 1rem;
+    }
+    
+    .carousel-nav.next {
+        right: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-carousel {
+        height: 80vh;
+        min-height: 500px;
+    }
+    
+    .hero-content {
+        padding: 1rem;
+    }
+    
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .hero-description {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+    }
+    
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .stat-compact .number {
+        font-size: 1.6rem;
+    }
+    
+    .stat-compact .label {
+        font-size: 0.8rem;
+    }
+    
+    .carousel-indicators {
+        bottom: 100px;
+    }
+    
+    .carousel-nav {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-content {
+        padding: 0.5rem;
+    }
+    
+    .stats-compact {
+        padding: 1rem 0;
+    }
+    
+    .carousel-nav.prev {
+        left: 0.5rem;
+    }
+    
+    .carousel-nav.next {
+        right: 0.5rem;
+    }
+}
+</style>
+
+<script>
+// Pure JavaScript Carousel - No Dependencies
+let currentSlide = 0;
+let slideInterval;
+const slides = document.querySelectorAll('.hero-slide');
+const indicators = document.querySelectorAll('.indicator');
+
+// Set background images from data attributes
+slides.forEach(slide => {
+    const bgImage = slide.getAttribute('data-bg');
+    if (bgImage) {
+        slide.style.backgroundImage = `url(${bgImage})`;
+    }
+});
+
+function showSlide(index) {
+    // Remove active class from all slides and indicators
+    slides.forEach(slide => slide.classList.remove('active'));
+    indicators.forEach(indicator => indicator.classList.remove('active'));
+    
+    // Add active class to current slide and indicator
+    slides[index].classList.add('active');
+    indicators[index].classList.add('active');
+    
+    currentSlide = index;
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+}
+
+function changeSlide(direction) {
+    currentSlide += direction;
+    
+    if (currentSlide >= slides.length) {
+        currentSlide = 0;
+    } else if (currentSlide < 0) {
+        currentSlide = slides.length - 1;
+    }
+    
+    showSlide(currentSlide);
+    resetInterval();
+}
+
+function goToSlide(index) {
+    showSlide(index);
+    resetInterval();
+}
+
+function startInterval() {
+    slideInterval = setInterval(nextSlide, 6000); // Change slide every 6 seconds
+}
+
+function resetInterval() {
+    clearInterval(slideInterval);
+    startInterval();
+}
+
+// Initialize carousel
+document.addEventListener('DOMContentLoaded', function() {
+    startInterval();
+    
+    // Pause on hover
+    const carousel = document.querySelector('.carousel-container');
+    carousel.addEventListener('mouseenter', () => clearInterval(slideInterval));
+    carousel.addEventListener('mouseleave', startInterval);
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+            changeSlide(-1);
+        } else if (e.key === 'ArrowRight') {
+            changeSlide(1);
+        }
+    });
+});
+</script>
+
+<!--section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Leaders in Geospatial Innovation</h1>
+            <p class="hero-subtitle">Precision. Innovation. Impact.</p>
+            <p class="hero-description">
+                Empowering Kenya's future through advanced surveying, predictive analytics, and cutting-edge geospatial technologies. 
+                From national infrastructure to precision agriculture, we deliver research-grade solutions that transform data into actionable intelligence.
+            </p>
+            <div class="hero-buttons">
+                <a href="{% url 'services:list' %}" class="btn btn-primary btn-lg">Our Services</a>
+                <a href="{% url 'core:contact' %}" class="btn btn-secondary btn-lg">Get Started</a>
+            </div>
+        </div>
+        
+        <-- Compact Stats >
+        <div class="stats-compact">
+            <div class="stats-row">
+                <div class="stat-compact">
+                    <span class="number">251+</span>
+                    <div class="label">km Surveyed</div>
+                </div>
+                <div class="stat-compact">
+                    <span class="number">15+</span>
+                    <div class="label">Major Projects</div>
+                </div>
+                <div class="stat-compact">
+                    <span class="number">98%</span>
+                    <div class="label">Client Satisfaction</div>
+                </div>
+                <div class="stat-compact">
+                    <span class="number">5+</span>
+                    <div class="label">Years Excellence</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section-->
+
+<!-- Core Expertise Banner -->
+<section class="expertise-banner">
+    <div class="container">
+        <div class="banner-content">
+            <div class="banner-header">
+                <div class="banner-icon">🎓</div>
+                <h2 class="banner-title">Research-Grade Solutions</h2>
+                <p class="banner-subtitle">Our PhD-level expertise ensures every project meets the highest scientific and technical standards. We don't just deliver services – we advance the field through innovation and precision.</p>
+            </div>
+            
+            <div class="why-choose-section">
+                <h3 class="why-choose-title">Why Choose Fayvad?</h3>
+                <div class="advantages-grid">
+                    <div class="advantage-item">
+                        <div class="advantage-icon">👨‍🎓</div>
+                        <h4>PhD-Qualified Team</h4>
+                        <p>International experience</p>
+                    </div>
+                    <div class="advantage-item">
+                        <div class="advantage-icon">⚡</div>
+                        <h4>Advanced Methodologies</h4>
+                        <p>Cutting-edge technology</p>
+                    </div>
+                    <div class="advantage-item">
+                        <div class="advantage-icon">🏗️</div>
+                        <h4>Proven Track Record</h4>
+                        <p>Major infrastructure projects</p>
+                    </div>
+                    <div class="advantage-item">
+                        <div class="advantage-icon">📊</div>
+                        <h4>Research-Backed Solutions</h4>
+                        <p>Measurable results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technology Stack -->
+<section class="tech-showcase">
+    <div class="container">
+        <h2 class="section-title">Powered by Industry-Leading Technology</h2>
+        <p class="text-center text-muted">Professional tools and cutting-edge equipment for precision results</p>
+        
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-icon">🛰️</div>
+                <div class="tech-name">GNSS & RTK</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🚁</div>
+                <div class="tech-name">UAV Systems</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">📊</div>
+                <div class="tech-name">ArcGIS Pro</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🗺️</div>
+                <div class="tech-name">QGIS</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">📐</div>
+                <div class="tech-name">AutoCAD</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🔬</div>
+                <div class="tech-name">Remote Sensing</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Process -->
+<section class="process-section">
+    <div class="container">
+        <h2 class="section-title">Our Proven Methodology</h2>
+        <p class="text-center text-muted">A systematic approach that ensures project success every time</p>
+        
+        <div class="process-flow">
+            <div class="process-step">
+                <div class="step-circle">1</div>
+                <h4 class="step-title">Assess</h4>
+                <p class="step-description">Site evaluation and requirement analysis with stakeholder consultation</p>
+            </div>
+            <div class="process-step">
+                <div class="step-circle">2</div>
+                <h4 class="step-title">Plan</h4>
+                <p class="step-description">Strategic project planning with methodology selection and resource allocation</p>
+            </div>
+            <div class="process-step">
+                <div class="step-circle">3</div>
+                <h4 class="step-title">Execute</h4>
+                <p class="step-description">Precision data collection using advanced equipment and proven techniques</p>
+            </div>
+            <div class="process-step">
+                <div class="step-circle">4</div>
+                <h4 class="step-title">Deliver</h4>
+                <p class="step-description">Comprehensive results with documentation, training, and ongoing support</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Achievements -->
+<section class="achievements-section">
+    <div class="container">
+        <h2 class="section-title">Credentials & Recognition</h2>
+        <p class="text-center">Trusted expertise backed by professional qualifications and proven results</p>
+        
+        <div class="achievements-grid">
+            <div class="achievement-item">
+                <div class="achievement-icon">🎓</div>
+                <h4 class="achievement-title">PhD Expertise</h4>
+                <p class="achievement-description">Advanced academic qualifications in geospatial sciences</p>
+            </div>
+            <div class="achievement-item">
+                <div class="achievement-icon">🏆</div>
+                <h4 class="achievement-title">Industry Awards</h4>
+                <p class="achievement-description">Recognition for excellence and innovation in surveying</p>
+            </div>
+            <div class="achievement-item">
+                <div class="achievement-icon">📜</div>
+                <h4 class="achievement-title">Professional Licenses</h4>
+                <p class="achievement-description">Registered and certified with regulatory bodies</p>
+            </div>
+            <div class="achievement-item">
+                <div class="achievement-icon">🌍</div>
+                <h4 class="achievement-title">International Experience</h4>
+                <p class="achievement-description">Projects across Kenya, Germany, and Japan</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Services -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Our Services</h2>
+        <p class="text-center text-muted mb-5">Comprehensive geospatial solutions for every need</p>
+        
+        <div class="services-grid">
+            {% for service in services %}
+            <div class="service-card">
+                <div class="service-icon">{{ service.icon|default:"🗺️" }}</div>
+                <h3 class="service-title">{{ service.name }}</h3>
+                <p class="service-description">{{ service.short_description }}</p>
+                <div class="service-features">
+                    {% if service.key_features %}
+                        {% for feature in service.key_features|slice:":3" %}
+                        <span class="feature-tag">{{ feature }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <a href="{{ service.get_absolute_url }}" class="btn btn-primary">Learn More</a>
+            </div>
+            {% empty %}
+            <!-- Default services if none in database -->
+            <div class="service-card">
+                <div class="service-icon">📏</div>
+                <h3 class="service-title">Land Surveying</h3>
+                <p class="service-description">Precision boundary surveys, topographic mapping, and cadastral documentation for legal and development purposes.</p>
+                <div class="service-features">
+                    <span class="feature-tag">Boundary Surveys</span>
+                    <span class="feature-tag">Topographic Mapping</span>
+                    <span class="feature-tag">Legal Documentation</span>
+                </div>
+                <a href="{% url 'services:land_surveying' %}" class="btn btn-primary">Learn More</a>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">🗺️</div>
+                <h3 class="service-title">GIS Development</h3>
+                <p class="service-description">Custom GIS applications, spatial analysis, and database design for complex geospatial projects and decision-making.</p>
+                <div class="service-features">
+                    <span class="feature-tag">Custom Applications</span>
+                    <span class="feature-tag">Spatial Analysis</span>
+                    <span class="feature-tag">Database Design</span>
+                </div>
+                <a href="{% url 'services:gis_development' %}" class="btn btn-primary">Learn More</a>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">🚁</div>
+                <h3 class="service-title">Drone Mapping</h3>
+                <p class="service-description">High-resolution aerial surveys, orthophoto generation, and 3D modeling using advanced UAV technology.</p>
+                <div class="service-features">
+                    <span class="feature-tag">Aerial Photography</span>
+                    <span class="feature-tag">3D Modeling</span>
+                    <span class="feature-tag">Orthophoto Maps</span>
+                </div>
+                <a href="{% url 'services:drone_mapping' %}" class="btn btn-primary">Learn More</a>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">🏗️</div>
+                <h3 class="service-title">Infrastructure Support</h3>
+                <p class="service-description">Engineering surveys, construction staking, infrastructure planning and monitoring for major development projects.</p>
+                <div class="service-features">
+                    <span class="feature-tag">Construction Staking</span>
+                    <span class="feature-tag">Engineering Surveys</span>
+                    <span class="feature-tag">Project Monitoring</span>
+                </div>
+                <a href="{% url 'services:government' %}" class="btn btn-primary">Learn More</a>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">🌿</div>
+                <h3 class="service-title">Environmental Services</h3>
+                <p class="service-description">Environmental impact assessments, habitat monitoring, land cover analysis and conservation planning.</p>
+                <div class="service-features">
+                    <span class="feature-tag">Impact Assessment</span>
+                    <span class="feature-tag">Habitat Monitoring</span>
+                    <span class="feature-tag">Conservation Planning</span>
+                </div>
+                <a href="{% url 'services:environmental' %}" class="btn btn-primary">Learn More</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects -->
+{% if featured_projects %}
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="row">
+            {% for project in featured_projects %}
+            <div class="col-lg-4 mb-4">
+                <div class="project-card">
+                    <div class="project-image">
+                        {{ project.category.icon|default:"📊" }}
+                    </div>
+                    <div class="project-content">
+                        <h4 class="project-title">{{ project.title }}</h4>
+                        <p class="project-meta">{{ project.client_organization }}</p>
+                        <p class="project-description">{{ project.short_description|truncatewords:15 }}</p>
+                        <a href="{{ project.get_absolute_url }}" class="btn btn-outline-primary">View Case Study</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-primary">View All Projects</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Testimonials -->
+{% if testimonials %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">What Our Clients Say</h2>
+        <div class="row">
+            {% for testimonial in testimonials %}
+            <div class="col-md-6">
+                <div class="testimonial">
+                    <p class="testimonial-text">"{{ testimonial.content }}"</p>
+                    <div class="testimonial-author">{{ testimonial.client_name }}</div>
+                    <div class="testimonial-title">{{ testimonial.client_title }}, {{ testimonial.client_company }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Start Your Next Project?</h2>
+            <p>Get professional GIS and surveying services backed by PhD-level expertise.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg">Get Started Today</a>
+                <a href="{% url 'services:list' %}" class="btn btn-outline-light btn-lg">Explore Services</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

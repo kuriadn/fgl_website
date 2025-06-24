@@ -1,0 +1,633 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="quote-hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="service-icon">
+                {% if service.icon_class %}
+                <i class="bi {{ service.icon_class }}"></i>
+                {% else %}
+                <div class="service-emoji">{{ service.icon|default:"🗺️" }}</div>
+                {% endif %}
+            </div>
+            <h1 class="hero-title">Get a Quote</h1>
+            <p class="hero-subtitle">{{ service.name }}</p>
+        </div>
+    </div>
+</section>
+
+<!-- Quote Form Section -->
+<section class="quote-form-section">
+    <div class="container">
+        <div class="quote-grid">
+            <div class="quote-form-container">
+                <div class="form-header">
+                    <h2>Request Your Free Quote</h2>
+                    <p>Please provide the details of your project to receive an accurate quote.</p>
+                </div>
+                
+                <form id="quote-form" method="post" action="{% url 'services:get_quote' service.slug %}">
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form.name|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ form.email|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form.phone|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ form.organization|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            {{ form.budget_range|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ form.timeline|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.project_description|as_crispy_field }}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.location|as_crispy_field }}
+                    </div>
+                    
+                    <div class="form-submit">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <span class="btn-text">Submit Quote Request</span>
+                            <span class="btn-loading d-none">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Sending...
+                            </span>
+                        </button>
+                    </div>
+                    
+                    <div class="form-message mt-3"></div>
+                </form>
+            </div>
+            
+            <div class="quote-sidebar">
+                <div class="service-summary-card">
+                    <h3>Service Overview</h3>
+                    
+                    <div class="service-image">
+                        {% if service.featured_image %}
+                        <img src="{{ service.featured_image.url }}" alt="{{ service.name }}">
+                        {% else %}
+                        <div class="placeholder-image">
+                            <i class="bi bi-image"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="service-details">
+                        <h4>{{ service.name }}</h4>
+                        <p>{{ service.short_description }}</p>
+                    </div>
+                    
+                    {% if service.price_range %}
+                    <div class="service-meta">
+                        <div class="meta-label">
+                            <i class="bi bi-currency-dollar"></i> Starting Price
+                        </div>
+                        <div class="meta-value">{{ service.price_range }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if service.duration_range %}
+                    <div class="service-meta">
+                        <div class="meta-label">
+                            <i class="bi bi-calendar-range"></i> Typical Duration
+                        </div>
+                        <div class="meta-value">{{ service.duration_range }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    <a href="{{ service.get_absolute_url }}" class="btn btn-outline">View Service Details</a>
+                </div>
+                
+                <div class="quote-benefits-card">
+                    <h3>Why Request a Quote?</h3>
+                    
+                    <div class="benefits-list">
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-cash-coin"></i></div>
+                            <div class="benefit-text">
+                                <h4>Transparent Pricing</h4>
+                                <p>Get a clear breakdown of costs with no hidden fees.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-clipboard-check"></i></div>
+                            <div class="benefit-text">
+                                <h4>Tailored Solution</h4>
+                                <p>Receive a customized proposal specific to your project needs.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-clock-history"></i></div>
+                            <div class="benefit-text">
+                                <h4>Quick Response</h4>
+                                <p>Get your detailed quote within 24 hours.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="benefit-item">
+                            <div class="benefit-icon"><i class="bi bi-shield-check"></i></div>
+                            <div class="benefit-text">
+                                <h4>No Obligation</h4>
+                                <p>Request a quote with no commitment required.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section bg-light">
+    <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        
+        <div class="faq-container">
+            <div class="accordion" id="quoteAccordion">
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="faqOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            How soon will I receive my quote?
+                        </button>
+                    </h3>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#quoteAccordion">
+                        <div class="accordion-body">
+                            We aim to provide all quotes within 24 business hours. For complex projects, it may take up to 48 hours to prepare a comprehensive proposal.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="faqTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            What information should I include in my project description?
+                        </button>
+                    </h3>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#quoteAccordion">
+                        <div class="accordion-body">
+                            To receive the most accurate quote, please include details about project scope, timeline, location, specific requirements, and any technical specifications. The more information you provide, the more tailored your quote will be.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="faqThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Is there a fee for requesting a quote?
+                        </button>
+                    </h3>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="faqThree" data-bs-parent="#quoteAccordion">
+                        <div class="accordion-body">
+                            No, all quotes are provided free of charge with no obligation. We believe in transparent pricing and want to ensure you have all the information you need before making a decision.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="faqFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            What happens after I receive my quote?
+                        </button>
+                    </h3>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="faqFour" data-bs-parent="#quoteAccordion">
+                        <div class="accordion-body">
+                            After receiving your quote, you can discuss it with our team, request modifications, or proceed with the project. The quote is valid for 30 days, giving you time to make your decision. If you choose to proceed, we'll create a detailed project plan and timeline.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Need Immediate Assistance?</h2>
+            <p>If you have urgent questions or prefer to discuss your project directly, our team is ready to help.</p>
+            <div class="cta-buttons">
+                <a href="tel:+254769069640" class="btn btn-secondary btn-lg">
+                    <i class="bi bi-telephone"></i> Call +254 769 069 640
+                </a>
+                <a href="{% url 'core:contact' %}" class="btn btn-outline btn-lg">
+                    <i class="bi bi-envelope"></i> Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .quote-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .quote-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><polygon fill="%23e6f3ff" points="0,200 300,150 600,180 900,120 1200,160 1200,400 0,400" opacity="0.3"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .service-icon {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        margin: 0 auto 20px;
+    }
+    
+    .service-emoji {
+        font-size: 3rem;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+        opacity: 0.9;
+    }
+    
+    .quote-form-section {
+        padding: 80px 0;
+    }
+    
+    .quote-grid {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 40px;
+    }
+    
+    .quote-form-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 40px;
+    }
+    
+    .form-header {
+        margin-bottom: 30px;
+    }
+    
+    .form-header h2 {
+        color: #1e3c72;
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+    
+    .form-header p {
+        color: #666;
+    }
+    
+    .form-submit {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .quote-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .service-summary-card,
+    .quote-benefits-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 30px;
+    }
+    
+    .service-summary-card h3,
+    .quote-benefits-card h3 {
+        color: #1e3c72;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f0f4f8;
+    }
+    
+    .service-image {
+        height: 180px;
+        overflow: hidden;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .service-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .placeholder-image {
+        width: 100%;
+        height: 100%;
+        background: #f0f4f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        font-size: 3rem;
+    }
+    
+    .service-details h4 {
+        color: #1e3c72;
+        margin-bottom: 10px;
+    }
+    
+    .service-details p {
+        color: #555;
+        margin-bottom: 20px;
+    }
+    
+    .service-meta {
+        margin-bottom: 15px;
+    }
+    
+    .meta-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #666;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .meta-value {
+        color: #1e3c72;
+        font-weight: 500;
+    }
+    
+    .benefits-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .benefit-item {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .benefit-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+    
+    .benefit-text h4 {
+        color: #1e3c72;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+    
+    .benefit-text p {
+        color: #555;
+        font-size: 0.9rem;
+        margin-bottom: 0;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        color: #1e3c72;
+        margin-bottom: 40px;
+    }
+    
+    .faq-section {
+        padding: 80px 0;
+    }
+    
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .accordion-item {
+        border: none;
+        background: white;
+        border-radius: 10px !important;
+        overflow: hidden;
+        margin-bottom: 15px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    
+    .accordion-header {
+        margin-bottom: 0;
+    }
+    
+    .accordion-button {
+        background: white;
+        color: #1e3c72;
+        font-weight: 500;
+        border: none;
+        border-radius: 10px;
+        padding: 20px;
+        font-size: 1.1rem;
+    }
+    
+    .accordion-button:not(.collapsed) {
+        background-color: #f8f9fa;
+        color: #1e3c72;
+        box-shadow: none;
+    }
+    
+    .accordion-button:focus {
+        box-shadow: none;
+        border-color: #f0f4f8;
+    }
+    
+    .accordion-button::after {
+        background-size: 16px;
+        width: 16px;
+        height: 16px;
+    }
+    
+    .accordion-body {
+        padding: 20px;
+        color: #555;
+    }
+    
+    .cta-section {
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+    }
+    
+    .cta-content {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+        .quote-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.2rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle quote form submission with AJAX
+        const quoteForm = document.getElementById('quote-form');
+        if (quoteForm) {
+            quoteForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const btnText = submitBtn.querySelector('.btn-text');
+                const btnLoading = submitBtn.querySelector('.btn-loading');
+                const formMessage = this.querySelector('.form-message');
+                
+                // Show loading state
+                btnText.classList.add('d-none');
+                btnLoading.classList.remove('d-none');
+                submitBtn.disabled = true;
+                
+                // Get form data
+                const formData = new FormData(this);
+                
+                // Submit form via AJAX
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        formMessage.innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
+                        quoteForm.reset();
+                    } else {
+                        let errorHtml = '<div class="alert alert-danger"><p>' + data.message + '</p>';
+                        
+                        if (data.errors) {
+                            errorHtml += '<ul>';
+                            for (const field in data.errors) {
+                                errorHtml += '<li>' + data.errors[field] + '</li>';
+                            }
+                            errorHtml += '</ul>';
+                        }
+                        
+                        errorHtml += '</div>';
+                        formMessage.innerHTML = errorHtml;
+                    }
+                })
+                .catch(error => {
+                    formMessage.innerHTML = '<div class="alert alert-danger">An error occurred. Please try again later.</div>';
+                })
+                .finally(() => {
+                    // Reset button state
+                    btnText.classList.remove('d-none');
+                    btnLoading.classList.add('d-none');
+                    submitBtn.disabled = false;
+                    
+                    // Scroll to message
+                    formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,601 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Fayvad Geosolutions{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="success-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Success Stories</h1>
+            <p class="hero-subtitle">Real results and client successes from our geospatial projects</p>
+        </div>
+    </div>
+</section>
+
+<!-- Key Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.projects_completed }}</div>
+                <div class="stat-label">Projects Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.clients_served }}</div>
+                <div class="stat-label">Clients Served</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_area_surveyed }}</div>
+                <div class="stat-label">Area Surveyed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.average_rating }}</div>
+                <div class="stat-label">Client Satisfaction</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Success Stories Section -->
+<section class="success-stories-section">
+    <div class="container">
+        <h2 class="section-title">Client Success Stories</h2>
+        
+        {% if success_projects %}
+        <div class="success-stories-grid">
+            {% for project in success_projects %}
+            <div class="success-story-card">
+                <div class="story-header">
+                    {% if project.featured_image %}
+                    <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="story-image">
+                    {% else %}
+                    <img src="{% static 'images/placeholder-project.jpg' %}" alt="{{ project.title }}" class="story-image">
+                    {% endif %}
+                    <div class="story-overlay">
+                        <div class="story-category">{{ project.category.name }}</div>
+                    </div>
+                </div>
+                
+                <div class="story-content">
+                    <h3 class="story-title">{{ project.title }}</h3>
+                    <div class="story-meta">
+                        <span class="meta-item"><i class="bi bi-building"></i> {{ project.client_name }}</span>
+                        <span class="meta-item"><i class="bi bi-geo-alt"></i> {{ project.location }}</span>
+                    </div>
+                    
+                    <div class="story-description">
+                        <p>{{ project.short_description|truncatewords:25 }}</p>
+                    </div>
+                    
+                    <div class="story-results">
+                        <h4><i class="bi bi-trophy"></i> Key Results</h4>
+                        <ul>
+                            {% if project.outcomes %}
+                                {% for outcome in project.outcomes|slice:":3" %}
+                                <li>{{ outcome }}</li>
+                                {% endfor %}
+                            {% else %}
+                                <li>Successfully delivered on client requirements</li>
+                                <li>Completed on time and within budget</li>
+                                <li>High client satisfaction rating</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    
+                    <a href="{{ project.get_absolute_url }}" class="btn btn-primary">Read Full Story</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-stories">
+            <div class="no-stories-icon">
+                <i class="bi bi-journal-text"></i>
+            </div>
+            <h3>Success stories coming soon</h3>
+            <p>We're currently preparing our success stories showcase. Please check back soon or explore our projects.</p>
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-primary">View Projects</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+{% if featured_testimonials %}
+<section class="testimonials-section bg-light">
+    <div class="container">
+        <h2 class="section-title">Client Testimonials</h2>
+        
+        <div class="testimonials-grid">
+            {% for testimonial in featured_testimonials %}
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="testimonial-quote">
+                        <i class="bi bi-quote"></i>
+                    </div>
+                    <p class="testimonial-text">{{ testimonial.content }}</p>
+                    
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4 class="author-name">{{ testimonial.client_name }}</h4>
+                            <p class="author-position">{{ testimonial.client_title }}, {{ testimonial.client_organization }}</p>
+                        </div>
+                        <div class="testimonial-rating">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= testimonial.rating %}
+                                <i class="bi bi-star-fill"></i>
+                                {% else %}
+                                <i class="bi bi-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Our Approach Section -->
+<section class="approach-section">
+    <div class="container">
+        <h2 class="section-title">Our Approach to Success</h2>
+        
+        <div class="approach-grid">
+            <div class="approach-item">
+                <div class="approach-icon">
+                    <i class="bi bi-clipboard-data"></i>
+                </div>
+                <h3 class="approach-title">Data-Driven</h3>
+                <p class="approach-description">We base every project on rigorous data collection and analysis, ensuring precision and reliability.</p>
+            </div>
+            
+            <div class="approach-item">
+                <div class="approach-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h3 class="approach-title">Client-Centric</h3>
+                <p class="approach-description">We prioritize understanding client needs and goals, maintaining clear communication throughout each project.</p>
+            </div>
+            
+            <div class="approach-item">
+                <div class="approach-icon">
+                    <i class="bi bi-lightbulb"></i>
+                </div>
+                <h3 class="approach-title">Innovative</h3>
+                <p class="approach-description">We leverage cutting-edge technologies and methodologies to deliver solutions that exceed expectations.</p>
+            </div>
+            
+            <div class="approach-item">
+                <div class="approach-icon">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <h3 class="approach-title">Results-Focused</h3>
+                <p class="approach-description">We measure success by the tangible outcomes and value we create for our clients.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Create Your Success Story?</h2>
+            <p>Contact us today to discuss how we can help you achieve exceptional results with our geospatial expertise.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'core:contact' %}" class="btn btn-secondary btn-lg">Contact Us</a>
+                <a href="{% url 'services:list' %}" class="btn btn-outline btn-lg">Our Services</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .success-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .success-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><polygon fill="%23e6f3ff" points="0,200 300,150 600,180 900,120 1200,160 1200,400 0,400" opacity="0.3"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .stats-section {
+        background: white;
+        padding: 0;
+        position: relative;
+        z-index: 10;
+        margin-top: -40px;
+        margin-bottom: 60px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        padding: 30px;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 20px 10px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #1e3c72;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .success-stories-section {
+        padding: 60px 0 80px;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        color: #1e3c72;
+        margin-bottom: 50px;
+        position: relative;
+    }
+    
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: #ffd700;
+        margin: 15px auto 0;
+        border-radius: 2px;
+    }
+    
+    .success-stories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+    }
+    
+    .success-story-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .success-story-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .story-header {
+        position: relative;
+    }
+    
+    .story-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    
+    .success-story-card:hover .story-image {
+        transform: scale(1.05);
+    }
+    
+    .story-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 15px;
+    }
+    
+    .story-category {
+        display: inline-block;
+        background: rgba(30, 60, 114, 0.8);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .story-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .story-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #1e3c72;
+    }
+    
+    .story-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .story-description {
+        color: #555;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+    
+    .story-results {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .story-results h4 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.1rem;
+        color: #1e3c72;
+        margin-bottom: 10px;
+    }
+    
+    .story-results ul {
+        padding-left: 20px;
+        margin-bottom: 0;
+    }
+    
+    .story-results li {
+        margin-bottom: 5px;
+        color: #555;
+    }
+    
+    .success-story-card .btn {
+        margin-top: auto;
+    }
+    
+    .no-stories {
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .no-stories-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 25px;
+    }
+    
+    .no-stories h3 {
+        color: #1e3c72;
+        margin-bottom: 15px;
+    }
+    
+    .no-stories p {
+        color: #666;
+        max-width: 500px;
+        margin: 0 auto 25px;
+    }
+    
+    .testimonials-section {
+        padding: 80px 0;
+    }
+    
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+    }
+    
+    .testimonial-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        height: 100%;
+    }
+    
+    .testimonial-quote {
+        color: #ffd700;
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    
+    .testimonial-text {
+        color: #555;
+        font-style: italic;
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+    
+    .testimonial-author {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+    
+    .author-name {
+        font-size: 1.1rem;
+        color: #1e3c72;
+        margin-bottom: 5px;
+    }
+    
+    .author-position {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0;
+    }
+    
+    .testimonial-rating {
+        color: #ffd700;
+    }
+    
+    .approach-section {
+        padding: 80px 0;
+    }
+    
+    .approach-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+    }
+    
+    .approach-item {
+        text-align: center;
+        padding: 30px 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s;
+    }
+    
+    .approach-item:hover {
+        transform: translateY(-5px);
+    }
+    
+    .approach-icon {
+        width: 70px;
+        height: 70px;
+        background: #f0f4f8;
+        color: #1e3c72;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin: 0 auto 20px;
+    }
+    
+    .approach-title {
+        color: #1e3c72;
+        margin-bottom: 15px;
+    }
+    
+    .approach-description {
+        color: #555;
+        line-height: 1.5;
+    }
+    
+    .cta-section {
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+    }
+    
+    .cta-content {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .success-stories-grid,
+        .testimonials-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .hero-title {
+            font-size: 2.2rem;
+        }
+        
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

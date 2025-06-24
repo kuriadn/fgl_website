@@ -1,0 +1,514 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Featured Projects - Fayvad Geosolutions{% endblock %}
+{% block meta_description %}{{ meta_description|default:"Explore our showcase of outstanding geospatial projects that demonstrate our expertise in surveying, GIS development, drone mapping, and environmental intelligence." }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="featured-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Featured Projects</h1>
+            <p class="hero-subtitle">Our showcase of exceptional geospatial solutions</p>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Overview -->
+<section class="stats-overview">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_projects }}</div>
+                <div class="stat-label">Total Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.completed_projects }}</div>
+                <div class="stat-label">Completed Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.ongoing_projects }}</div>
+                <div class="stat-label">Ongoing Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_value }}</div>
+                <div class="stat-label">Project Value</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.countries_served }}</div>
+                <div class="stat-label">Countries Served</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Showcase Section -->
+<section class="showcase-section">
+    <div class="container">
+        <h2 class="section-title">Project Showcase</h2>
+        
+        {% if featured_projects %}
+        <div class="featured-grid">
+            {% for project in featured_projects %}
+            <div class="featured-project {% if forloop.first %}featured-project-large{% endif %}">
+                <div class="project-image">
+                    {% if project.featured_image %}
+                    <img src="{{ project.featured_image.url }}" alt="{{ project.title }}">
+                    {% else %}
+                    <img src="{% static 'images/placeholder-project.jpg' %}" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="project-overlay">
+                        <div class="project-category">{{ project.category.name }}</div>
+                        {% if project.status == 'completed' %}
+                        <div class="project-status completed">Completed</div>
+                        {% elif project.status == 'in_progress' %}
+                        <div class="project-status ongoing">Ongoing</div>
+                        {% else %}
+                        <div class="project-status">{{ project.status|title }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <div class="project-meta">
+                        <span class="meta-item">
+                            <i class="bi bi-geo-alt"></i> {{ project.location }}
+                        </span>
+                        <span class="meta-item">
+                            <i class="bi bi-building"></i> {{ project.client_name }}
+                        </span>
+                    </div>
+                    <p class="project-description">{{ project.short_description|truncatewords:25 }}</p>
+                    <div class="project-actions">
+                        <a href="{{ project.get_absolute_url }}" class="btn btn-primary">View Project</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-projects">
+            <div class="no-projects-icon">
+                <i class="bi bi-clipboard-data"></i>
+            </div>
+            <h3>No featured projects yet</h3>
+            <p>Check back soon as we update our portfolio with our latest work.</p>
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-primary">View All Projects</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Service Domains -->
+<section class="domains-section bg-light">
+    <div class="container">
+        <h2 class="section-title">Our Service Domains</h2>
+        <p class="section-subtitle">Specialized expertise across multiple sectors</p>
+        
+        <div class="domains-grid">
+            <div class="domain-card">
+                <div class="domain-icon">🏢</div>
+                <h3 class="domain-title">Government & Infrastructure</h3>
+                <p class="domain-description">Supporting public sector initiatives with high-precision spatial data for informed decision-making.</p>
+            </div>
+            
+            <div class="domain-card">
+                <div class="domain-icon">🌱</div>
+                <h3 class="domain-title">Agriculture & Land Management</h3>
+                <p class="domain-description">Precision agriculture solutions for enhanced productivity and sustainable land use.</p>
+            </div>
+            
+            <div class="domain-card">
+                <div class="domain-icon">🏗️</div>
+                <h3 class="domain-title">Construction & Development</h3>
+                <p class="domain-description">Spatial intelligence for project planning, monitoring, and evaluation.</p>
+            </div>
+            
+            <div class="domain-card">
+                <div class="domain-icon">🌍</div>
+                <h3 class="domain-title">Environmental Conservation</h3>
+                <p class="domain-description">Monitoring and analysis solutions for environmental protection and natural resource management.</p>
+            </div>
+            
+            <div class="domain-card">
+                <div class="domain-icon">🏥</div>
+                <h3 class="domain-title">Public Health & Services</h3>
+                <p class="domain-description">Spatial analysis for healthcare planning, disease surveillance, and service delivery optimization.</p>
+            </div>
+            
+            <div class="domain-card">
+                <div class="domain-icon">🔬</div>
+                <h3 class="domain-title">Research & Academia</h3>
+                <p class="domain-description">Scientific-grade geospatial solutions for research institutions and educational purposes.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Have a Project in Mind?</h2>
+            <p>Our team of PhD-qualified experts is ready to transform your vision into reality.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'core:contact' %}" class="btn btn-secondary btn-lg">Request a Consultation</a>
+                <a href="{% url 'portfolio:projects' %}" class="btn btn-outline btn-lg">Explore All Projects</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .featured-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .featured-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><polygon fill="%23e6f3ff" points="0,200 300,150 600,180 900,120 1200,160 1200,400 0,400" opacity="0.3"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .stats-overview {
+        background: white;
+        padding: 0;
+        position: relative;
+        z-index: 10;
+        margin-top: -40px;
+        margin-bottom: 60px;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        padding: 30px;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 20px 10px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #1e3c72;
+        margin-bottom: 5px;
+    }
+    
+    .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .showcase-section {
+        padding: 60px 0 80px;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        color: #1e3c72;
+        margin-bottom: 50px;
+        position: relative;
+    }
+    
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: #ffd700;
+        margin: 15px auto 0;
+        border-radius: 2px;
+    }
+    
+    .featured-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+    }
+    
+    .featured-project-large {
+        grid-column: span 2;
+    }
+    
+    .featured-project {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .featured-project:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .project-image {
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .featured-project-large .project-image {
+        height: 400px;
+    }
+    
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    
+    .featured-project:hover .project-image img {
+        transform: scale(1.05);
+    }
+    
+    .project-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    
+    .project-category {
+        background: rgba(30, 60, 114, 0.8);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .project-status {
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .project-status.completed {
+        background: rgba(40, 167, 69, 0.8);
+    }
+    
+    .project-status.ongoing {
+        background: rgba(255, 193, 7, 0.8);
+    }
+    
+    .project-content {
+        padding: 25px;
+    }
+    
+    .project-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #1e3c72;
+    }
+    
+    .project-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .project-description {
+        color: #555;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+    
+    .project-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .no-projects {
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .no-projects-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 25px;
+    }
+    
+    .no-projects h3 {
+        color: #1e3c72;
+        margin-bottom: 15px;
+    }
+    
+    .no-projects p {
+        color: #666;
+        max-width: 500px;
+        margin: 0 auto 25px;
+    }
+    
+    .domains-section {
+        padding: 80px 0;
+    }
+    
+    .section-subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 50px;
+        margin-top: -30px;
+    }
+    
+    .domains-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    
+    .domain-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        text-align: center;
+        transition: transform 0.3s;
+    }
+    
+    .domain-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .domain-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+    
+    .domain-title {
+        color: #1e3c72;
+        margin-bottom: 15px;
+    }
+    
+    .domain-description {
+        color: #666;
+        line-height: 1.5;
+    }
+    
+    .cta-section {
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+    }
+    
+    .cta-content {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .featured-project-large {
+            grid-column: span 1;
+        }
+        
+        .featured-project-large .project-image {
+            height: 250px;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .hero-title {
+            font-size: 2.2rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .featured-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

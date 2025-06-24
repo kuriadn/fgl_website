@@ -1,0 +1,17 @@
+-r base.txt
+
+# Production server
+gunicorn==21.2.0
+whitenoise==6.6.0
+
+# Static file compression
+django-compressor==4.4
+
+# Monitoring and logging
+sentry-sdk==1.38.0
+
+# Security
+django-csp==3.7
+
+# Database connection pooling
+django-db-pool==1.2.0

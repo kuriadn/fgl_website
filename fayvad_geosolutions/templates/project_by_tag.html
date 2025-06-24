@@ -1,0 +1,545 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Fayvad Geosolutions{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="tag-hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="tag-badge">
+                <i class="bi bi-tag"></i> Tag
+            </div>
+            <h1 class="hero-title">{{ tag.name }}</h1>
+            {% if tag.description %}
+            <p class="hero-subtitle">{{ tag.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section class="projects-section">
+    <div class="container">
+        <div class="tag-info">
+            <div class="tag-header">
+                <div class="projects-count">{{ projects|length }} project{{ projects|length|pluralize }}</div>
+                <a href="{% url 'portfolio:projects' %}" class="back-link"><i class="bi bi-arrow-left"></i> Back to All Projects</a>
+            </div>
+            
+            {% if tag.color %}
+            <div class="tag-color-sample" style="background-color: {{ tag.color }}"></div>
+            {% endif %}
+        </div>
+        
+        {% if projects %}
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card">
+                <div class="project-image">
+                    {% if project.featured_image %}
+                    <img src="{{ project.featured_image.url }}" alt="{{ project.title }}">
+                    {% else %}
+                    <img src="{% static 'images/placeholder-project.jpg' %}" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="project-category">{{ project.category.name }}</div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <div class="project-meta">
+                        <span class="meta-item"><i class="bi bi-building"></i> {{ project.client_name }}</span>
+                        <span class="meta-item"><i class="bi bi-geo-alt"></i> {{ project.location }}</span>
+                        {% if project.status %}
+                        <span class="meta-item">
+                            <i class="bi bi-circle-fill" style="color: {% if project.status == 'completed' %}#28a745{% elif project.status == 'in_progress' %}#ffc107{% else %}#6c757d{% endif %}; font-size: 0.6rem;"></i>
+                            {{ project.status|title }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <p class="project-description">{{ project.short_description|truncatewords:20 }}</p>
+                    
+                    {% if project.tags.all %}
+                    <div class="project-tags">
+                        {% for project_tag in project.tags.all|slice:":3" %}
+                        <a href="{% url 'portfolio:tag' project_tag.slug %}" class="project-tag {% if project_tag.id == tag.id %}active{% endif %}">{{ project_tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <a href="{{ project.get_absolute_url }}" class="btn btn-primary">View Project</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="pagination-container">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span>&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span>&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <span>&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                        <span>&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="no-projects">
+            <div class="no-projects-icon">
+                <i class="bi bi-folder"></i>
+            </div>
+            <h3>No projects found with this tag</h3>
+            <p>We currently don't have any projects tagged with "{{ tag.name }}". Please check back later or explore our other projects.</p>
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-primary">View All Projects</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Related Tags Section -->
+<section class="related-tags-section bg-light">
+    <div class="container">
+        <h2 class="section-title">Related Tags</h2>
+        
+        <div class="related-tags">
+            {% for related_tag in related_tags|default:popular_tags|default:'' %}
+                {% if related_tag.id != tag.id %}
+                <a href="{% url 'portfolio:tag' related_tag.slug %}" class="tag-pill">
+                    {{ related_tag.name }}
+                    {% if related_tag.project_count %}
+                    <span class="tag-count">{{ related_tag.project_count }}</span>
+                    {% endif %}
+                </a>
+                {% endif %}
+            {% empty %}
+                <!-- If no related tags provided, show some generic navigation options -->
+                <a href="{% url 'portfolio:projects' %}" class="tag-pill">All Projects</a>
+                <a href="{% url 'portfolio:featured' %}" class="tag-pill">Featured</a>
+                <a href="{% url 'portfolio:case_studies' %}" class="tag-pill">Case Studies</a>
+                <a href="{% url 'portfolio:success_stories' %}" class="tag-pill">Success Stories</a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Looking for Similar Projects?</h2>
+            <p>Contact us to discuss how our expertise in {{ tag.name }} can benefit your organization.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'core:contact' %}" class="btn btn-secondary btn-lg">Contact Us</a>
+                <a href="{% url 'services:list' %}" class="btn btn-outline btn-lg">Our Services</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .tag-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .tag-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><polygon fill="%23e6f3ff" points="0,200 300,150 600,180 900,120 1200,160 1200,400 0,400" opacity="0.3"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .tag-badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        gap: 5px;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .projects-section {
+        padding: 60px 0 80px;
+    }
+    
+    .tag-info {
+        margin-bottom: 40px;
+    }
+    
+    .tag-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .projects-count {
+        font-size: 1.1rem;
+        color: #666;
+    }
+    
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #1e3c72;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .back-link:hover {
+        color: #ffd700;
+    }
+    
+    .tag-color-sample {
+        width: 100%;
+        height: 5px;
+        border-radius: 3px;
+        margin-bottom: 30px;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        color: #1e3c72;
+        margin-bottom: 40px;
+    }
+    
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+    }
+    
+    .project-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .project-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    
+    .project-card:hover .project-image img {
+        transform: scale(1.05);
+    }
+    
+    .project-category {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: rgba(30, 60, 114, 0.8);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .project-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .project-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #1e3c72;
+    }
+    
+    .project-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .project-description {
+        color: #555;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+    
+    .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .project-tag {
+        background: #f0f4f8;
+        color: #1e3c72;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        text-decoration: none;
+    }
+    
+    .project-tag.active {
+        background: #1e3c72;
+        color: white;
+    }
+    
+    .project-tag:hover:not(.active) {
+        background: #dce5f0;
+    }
+    
+    .project-card .btn {
+        margin-top: auto;
+    }
+    
+    .pagination-container {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        gap: 5px;
+    }
+    
+    .page-item {
+        margin: 0 2px;
+    }
+    
+    .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        background: #f0f4f8;
+        color: #1e3c72;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    
+    .page-item.active .page-link {
+        background: #1e3c72;
+        color: white;
+    }
+    
+    .page-link:hover {
+        background: #dce5f0;
+    }
+    
+    .no-projects {
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .no-projects-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 25px;
+    }
+    
+    .no-projects h3 {
+        color: #1e3c72;
+        margin-bottom: 15px;
+    }
+    
+    .no-projects p {
+        color: #666;
+        max-width: 500px;
+        margin: 0 auto 25px;
+    }
+    
+    .related-tags-section {
+        padding: 60px 0;
+    }
+    
+    .related-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+    }
+    
+    .tag-pill {
+        background: white;
+        padding: 8px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        color: #1e3c72;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .tag-pill:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .tag-count {
+        background: #f0f4f8;
+        color: #666;
+        font-size: 0.8rem;
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+    
+    .cta-section {
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+    }
+    
+    .cta-content {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .tag-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .hero-title {
+            font-size: 2.2rem;
+        }
+    }
+</style>
+{% endblock %}

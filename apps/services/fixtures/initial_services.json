@@ -1,0 +1,365 @@
+[
+  {
+    "model": "services.servicecategory",
+    "pk": 1,
+    "fields": {
+      "name": "Surveying & Mapping",
+      "slug": "surveying-mapping",
+      "description": "Professional land surveying and mapping services using precision instruments and methodologies",
+      "icon": "📏",
+      "order": 1,
+      "is_active": true,
+      "created_at": "2024-01-15T10:00:00Z",
+      "updated_at": "2024-01-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 2,
+    "fields": {
+      "name": "Technology Solutions",
+      "slug": "technology-solutions",
+      "description": "Advanced geospatial technology and software development services",
+      "icon": "🗺️",
+      "order": 2,
+      "is_active": true,
+      "created_at": "2024-01-15T10:05:00Z",
+      "updated_at": "2024-01-15T10:05:00Z"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 3,
+    "fields": {
+      "name": "Environmental Services",
+      "slug": "environmental-services",
+      "description": "Environmental intelligence and monitoring solutions",
+      "icon": "🌿",
+      "order": 3,
+      "is_active": true,
+      "created_at": "2024-01-15T10:10:00Z",
+      "updated_at": "2024-01-15T10:10:00Z"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 4,
+    "fields": {
+      "name": "Government Solutions",
+      "slug": "government-solutions",
+      "description": "Specialized solutions for government and institutional clients",
+      "icon": "🏛️",
+      "order": 4,
+      "is_active": true,
+      "created_at": "2024-01-15T10:15:00Z",
+      "updated_at": "2024-01-15T10:15:00Z"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1,
+    "fields": {
+      "name": "Land Surveying Solutions",
+      "slug": "land-surveying",
+      "category": 1,
+      "short_description": "Precision boundary surveys, topographic mapping, and cadastral documentation for legal and development purposes.",
+      "detailed_description": "Our comprehensive land surveying services provide accurate and legally compliant measurements for property boundaries, development projects, and infrastructure planning. Using state-of-the-art equipment and traditional surveying principles, we deliver precise results that meet all regulatory requirements.",
+      "icon": "📏",
+      "priority": "high",
+      "price_range": "KES 100K - 2M",
+      "duration_range": "1-4 weeks",
+      "overview": "Professional land surveying services combining traditional techniques with modern technology to deliver accurate, legally compliant measurements and documentation for all your property and development needs.",
+      "key_features": [
+        "Boundary surveys and property line determination",
+        "Topographic mapping and elevation data",
+        "Cadastral surveys for legal documentation",
+        "Construction staking and layout",
+        "As-built surveys for completed projects",
+        "Land subdivision planning"
+      ],
+      "deliverables": [
+        "Survey reports and legal documentation",
+        "Boundary marking and monuments",
+        "Topographic maps and CAD drawings",
+        "Digital survey data and coordinates",
+        "Compliance certificates"
+      ],
+      "process_steps": [
+        "Site reconnaissance and planning",
+        "Field data collection using precision instruments",
+        "Data processing and quality control",
+        "Report preparation and documentation",
+        "Client review and finalization"
+      ],
+      "technologies": [
+        "Total Stations",
+        "GNSS/GPS Systems",
+        "Electronic Distance Measurement",
+        "AutoCAD",
+        "Land Desktop",
+        "Survey-grade instruments"
+      ],
+      "is_featured": true,
+      "is_active": true,
+      "order": 1,
+      "created_at": "2024-01-15T11:00:00Z",
+      "updated_at": "2024-01-15T11:00:00Z"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 2,
+    "fields": {
+      "name": "GIS Development & Analytics",
+      "slug": "gis-development",
+      "category": 2,
+      "short_description": "Custom GIS applications, spatial analysis, and database design for complex geospatial projects and decision-making.",
+      "detailed_description": "Our GIS development services transform spatial data into powerful decision-making tools. We create custom applications, perform advanced spatial analysis, and design robust geospatial databases that enable organizations to visualize, analyze, and manage their spatial information effectively.",
+      "icon": "🗺️",
+      "priority": "high",
+      "price_range": "KES 500K - 5M",
+      "duration_range": "2-6 months",
+      "overview": "Comprehensive GIS development services that transform your spatial data into powerful tools for analysis, visualization, and decision-making. From custom applications to enterprise solutions.",
+      "key_features": [
+        "Custom web-based GIS applications",
+        "Spatial database design and optimization",
+        "Advanced spatial analysis and modeling",
+        "Enterprise GIS system integration",
+        "Mobile GIS solutions",
+        "Real-time data visualization dashboards"
+      ],
+      "deliverables": [
+        "Custom GIS applications and portals",
+        "Spatial databases and data models",
+        "Analysis reports and insights",
+        "User training and documentation",
+        "System maintenance and support"
+      ],
+      "process_steps": [
+        "Requirements analysis and system design",
+        "Database architecture and development",
+        "Application development and testing",
+        "User training and deployment",
+        "Ongoing support and maintenance"
+      ],
+      "technologies": [
+        "ArcGIS Enterprise",
+        "QGIS",
+        "PostGIS",
+        "PostgreSQL",
+        "Python",
+        "JavaScript",
+        "Web mapping APIs"
+      ],
+      "is_featured": true,
+      "is_active": true,
+      "order": 2,
+      "created_at": "2024-01-15T11:15:00Z",
+      "updated_at": "2024-01-15T11:15:00Z"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 3,
+    "fields": {
+      "name": "Drone Mapping & Remote Sensing",
+      "slug": "drone-mapping",
+      "category": 2,
+      "short_description": "High-resolution aerial surveys, orthophoto generation, and 3D modeling using advanced UAV technology.",
+      "detailed_description": "Our drone mapping services provide cost-effective, high-resolution aerial data collection for various applications. Using professional-grade UAVs equipped with advanced sensors, we capture detailed imagery and generate precise mapping products for construction, agriculture, mining, and environmental monitoring.",
+      "icon": "🚁",
+      "priority": "high",
+      "price_range": "KES 200K - 3M",
+      "duration_range": "1-3 weeks",
+      "overview": "Professional drone mapping services delivering high-resolution aerial imagery, precise orthophotos, and detailed 3D models for construction monitoring, agricultural analysis, and infrastructure planning.",
+      "key_features": [
+        "High-resolution aerial photography",
+        "Orthophoto map generation",
+        "Digital elevation models (DEMs)",
+        "3D modeling and visualization",
+        "Progress monitoring and change detection",
+        "Volume calculations and measurements"
+      ],
+      "deliverables": [
+        "Orthophoto maps and mosaics",
+        "Digital elevation models",
+        "3D point clouds and meshes",
+        "Volume calculation reports",
+        "Progress monitoring dashboards"
+      ],
+      "process_steps": [
+        "Flight planning and regulatory compliance",
+        "Aerial data collection",
+        "Image processing and georeferencing",
+        "Product generation and quality control",
+        "Delivery and client training"
+      ],
+      "technologies": [
+        "Professional UAV platforms",
+        "High-resolution cameras",
+        "LiDAR sensors",
+        "Pix4D",
+        "Agisoft Metashape",
+        "DJI Terra"
+      ],
+      "is_featured": true,
+      "is_active": true,
+      "order": 3,
+      "created_at": "2024-01-15T11:30:00Z",
+      "updated_at": "2024-01-15T11:30:00Z"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 4,
+    "fields": {
+      "name": "Environmental Intelligence",
+      "slug": "environmental-intelligence",
+      "category": 3,
+      "short_description": "Environmental impact assessments, habitat monitoring, land cover analysis and conservation planning.",
+      "detailed_description": "Our environmental intelligence services combine remote sensing, GIS analysis, and field expertise to provide comprehensive environmental monitoring and assessment solutions. We help organizations understand and manage their environmental impact while ensuring compliance with regulations.",
+      "icon": "🌿",
+      "priority": "medium",
+      "price_range": "KES 300K - 4M",
+      "duration_range": "2-8 weeks",
+      "overview": "Comprehensive environmental monitoring and analysis services using advanced geospatial technologies to support conservation efforts, compliance monitoring, and sustainable development planning.",
+      "key_features": [
+        "Environmental impact assessments",
+        "Habitat mapping and monitoring",
+        "Land cover change analysis",
+        "Water resource management",
+        "Biodiversity conservation planning",
+        "Climate change vulnerability assessment"
+      ],
+      "deliverables": [
+        "Environmental assessment reports",
+        "Habitat maps and conservation plans",
+        "Change detection analysis",
+        "Monitoring dashboards",
+        "Compliance documentation"
+      ],
+      "process_steps": [
+        "Environmental baseline studies",
+        "Remote sensing data analysis",
+        "Field verification and sampling",
+        "Impact assessment and modeling",
+        "Recommendations and reporting"
+      ],
+      "technologies": [
+        "Satellite imagery analysis",
+        "Environmental sensors",
+        "Water quality meters",
+        "ERDAS IMAGINE",
+        "R statistical software",
+        "Field data collection tools"
+      ],
+      "is_featured": false,
+      "is_active": true,
+      "order": 4,
+      "created_at": "2024-01-15T11:45:00Z",
+      "updated_at": "2024-01-15T11:45:00Z"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 5,
+    "fields": {
+      "name": "Government Technology Solutions",
+      "slug": "government-solutions",
+      "category": 4,
+      "short_description": "Specialized geospatial solutions for government agencies, including land administration, urban planning, and infrastructure management.",
+      "detailed_description": "We provide comprehensive geospatial technology solutions tailored for government agencies and institutions. Our services support land administration, urban planning, infrastructure management, and policy development through advanced GIS systems and spatial analysis.",
+      "icon": "🏛️",
+      "priority": "medium",
+      "price_range": "KES 1M - 10M",
+      "duration_range": "3-12 months",
+      "overview": "Specialized technology solutions for government agencies, supporting efficient land administration, urban planning, and infrastructure management through advanced geospatial systems.",
+      "key_features": [
+        "Land administration systems",
+        "Urban planning and zoning tools",
+        "Infrastructure asset management",
+        "Citizen service portals",
+        "Policy support and analysis",
+        "Emergency response systems"
+      ],
+      "deliverables": [
+        "Custom government applications",
+        "Land administration databases",
+        "Urban planning tools",
+        "Training programs for staff",
+        "System documentation and support"
+      ],
+      "process_steps": [
+        "Needs assessment and consultation",
+        "System design and architecture",
+        "Development and customization",
+        "Testing and quality assurance",
+        "Deployment and training"
+      ],
+      "technologies": [
+        "Enterprise GIS platforms",
+        "Web application frameworks",
+        "Government data standards",
+        "Security compliance tools",
+        "Cloud infrastructure",
+        "Mobile applications"
+      ],
+      "is_featured": false,
+      "is_active": true,
+      "order": 5,
+      "created_at": "2024-01-15T12:00:00Z",
+      "updated_at": "2024-01-15T12:00:00Z"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 6,
+    "fields": {
+      "name": "Research & Development",
+      "slug": "research-development",
+      "category": 2,
+      "short_description": "Cutting-edge geospatial research, innovation projects, and technology development for advancing the industry.",
+      "detailed_description": "Our research and development services focus on advancing geospatial technologies and methodologies. We collaborate with academic institutions, government agencies, and private organizations to develop innovative solutions and conduct research that pushes the boundaries of geospatial science.",
+      "icon": "🔬",
+      "priority": "low",
+      "price_range": "Contact for quote",
+      "duration_range": "Project dependent",
+      "overview": "Innovation-driven research and development services that advance geospatial technologies and methodologies, supporting both academic research and commercial innovation.",
+      "key_features": [
+        "Applied geospatial research",
+        "Technology innovation projects",
+        "Academic collaborations",
+        "Prototype development",
+        "Research methodology design",
+        "Publication and knowledge sharing"
+      ],
+      "deliverables": [
+        "Research reports and publications",
+        "Prototype systems and tools",
+        "Technical documentation",
+        "Conference presentations",
+        "Training materials"
+      ],
+      "process_steps": [
+        "Research proposal and planning",
+        "Literature review and methodology",
+        "Data collection and experimentation",
+        "Analysis and development",
+        "Documentation and dissemination"
+      ],
+      "technologies": [
+        "Machine learning frameworks",
+        "Open source GIS tools",
+        "Research software platforms",
+        "Statistical analysis tools",
+        "Prototype development tools",
+        "Academic databases"
+      ],
+      "is_featured": false,
+      "is_active": true,
+      "order": 6,
+      "created_at": "2024-01-15T12:15:00Z",
+      "updated_at": "2024-01-15T12:15:00Z"
+    }
+  }
+]

@@ -1,0 +1,90 @@
+{% if request.resolver_match.url_name != 'home' %}
+<nav aria-label="breadcrumb" class="bg-light py-2">
+    <div class="container">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <a href="{% url 'core:home' %}">
+                    <i class="fas fa-home me-1"></i>Home
+                </a>
+            </li>
+            
+            <!-- Services breadcrumbs -->
+            {% if 'services' in request.resolver_match.url_name %}
+                {% if request.resolver_match.url_name == 'services:list' %}
+                <li class="breadcrumb-item active" aria-current="page">Services</li>
+                {% else %}
+                <li class="breadcrumb-item">
+                    <a href="{% url 'services:list' %}">Services</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {% if 'land_surveying' in request.resolver_match.url_name %}Land Surveying Solutions
+                    {% elif 'gis_development' in request.resolver_match.url_name %}GIS Development & Analytics
+                    {% elif 'drone_mapping' in request.resolver_match.url_name %}Drone Mapping & Remote Sensing
+                    {% elif 'environmental' in request.resolver_match.url_name %}Environmental Intelligence
+                    {% elif 'government' in request.resolver_match.url_name %}Government Technology Solutions
+                    {% endif %}
+                </li>
+                {% endif %}
+            
+            <!-- Portfolio breadcrumbs -->
+            {% elif 'portfolio' in request.resolver_match.url_name %}
+                {% if request.resolver_match.url_name == 'portfolio:list' %}
+                <li class="breadcrumb-item active" aria-current="page">Projects</li>
+                {% else %}
+                <li class="breadcrumb-item">
+                    <a href="{% url 'portfolio:list' %}">Projects</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {% if project %}{{ project.title }}{% endif %}
+                </li>
+                {% endif %}
+            
+            <!-- Blog breadcrumbs -->
+            {% elif 'blog' in request.resolver_match.url_name %}
+                {% if request.resolver_match.url_name == 'blog:list' %}
+                <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                {% else %}
+                <li class="breadcrumb-item">
+                    <a href="{% url 'blog:list' %}">Blog</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {% if post %}{{ post.title }}{% endif %}
+                    {% if category %}{{ category.name }}{% endif %}
+                    {% if tag %}#{{ tag.name }}{% endif %}
+                    {% if query %}Search: "{{ query }}"{% endif %}
+                </li>
+                {% endif %}
+            
+            <!-- Team breadcrumbs -->
+            {% elif 'team' in request.resolver_match.url_name %}
+                {% if request.resolver_match.url_name == 'team:list' %}
+                <li class="breadcrumb-item active" aria-current="page">Our Team</li>
+                {% else %}
+                <li class="breadcrumb-item">
+                    <a href="{% url 'team:list' %}">Our Team</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    {% if team_member %}{{ team_member.name }}{% endif %}
+                </li>
+                {% endif %}
+            
+            <!-- About page -->
+            {% elif request.resolver_match.url_name == 'about' %}
+            <li class="breadcrumb-item active" aria-current="page">About Us</li>
+            
+            <!-- Contact page -->
+            {% elif request.resolver_match.url_name == 'contact' %}
+            <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+            
+            <!-- Search page -->
+            {% elif request.resolver_match.url_name == 'search' %}
+            <li class="breadcrumb-item active" aria-current="page">Search Results</li>
+            
+            <!-- Generic page -->
+            {% elif page %}
+            <li class="breadcrumb-item active" aria-current="page">{{ page.title }}</li>
+            {% endif %}
+        </ol>
+    </div>
+</nav>
+{% endif %}

@@ -1,0 +1,815 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.meta_title }}{% endblock %}
+{% block meta_description %}{{ project.meta_description }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .project-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .project-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><polygon fill="%23e6f3ff" points="0,200 300,150 600,180 900,120 1200,160 1200,400 0,400" opacity="0.3"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .project-header {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .project-status {
+        display: inline-block;
+        background: rgba(255, 215, 0, 0.2);
+        color: #ffd700;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    
+    .project-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .meta-item {
+        text-align: center;
+        padding: 1.5rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+    }
+    
+    .meta-label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        margin-bottom: 0.5rem;
+    }
+    
+    .meta-value {
+        font-weight: bold;
+        color: #ffd700;
+        font-size: 1.1rem;
+    }
+    
+    .project-overview {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 4rem;
+        margin-top: 3rem;
+        align-items: start;
+    }
+    
+    .overview-content h3 {
+        color: #1e3c72;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .overview-content p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+    }
+    
+    .project-sidebar {
+        background: #f8fafc;
+        padding: 2.5rem;
+        border-radius: 15px;
+        position: sticky;
+        top: 100px;
+    }
+    
+    .sidebar-section {
+        margin-bottom: 2rem;
+    }
+    
+    .sidebar-section:last-child {
+        margin-bottom: 0;
+    }
+    
+    .sidebar-title {
+        color: #1e3c72;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #ffd700;
+        padding-bottom: 0.5rem;
+    }
+    
+    .info-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .info-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .info-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        color: #666;
+        font-weight: 500;
+    }
+    
+    .info-value {
+        color: #1e3c72;
+        font-weight: bold;
+    }
+    
+    .services-list, .tech-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .service-tag {
+        background: #e8f1ff;
+        color: #1e3c72;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    
+    .tech-tag {
+        background: #f0f0f0;
+        color: #333;
+        padding: 0.4rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+    }
+    
+    .csr-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        margin: 4rem 0;
+    }
+    
+    .csr-section {
+        background: white;
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-left: 6px solid #1e3c72;
+    }
+    
+    .csr-section.challenge {
+        border-left-color: #ff6b6b;
+    }
+    
+    .csr-section.solution {
+        border-left-color: #4ecdc4;
+    }
+    
+    .csr-section.results {
+        border-left-color: #ffd700;
+    }
+    
+    .csr-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #1e3c72;
+    }
+    
+    .csr-title {
+        color: #1e3c72;
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+    
+    .metric-card {
+        background: #f8fafc;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        border-top: 4px solid #1e3c72;
+    }
+    
+    .metric-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #1e3c72;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    
+    .metric-label {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .milestones-timeline {
+        position: relative;
+        padding: 2rem 0;
+    }
+    
+    .timeline-line {
+        position: absolute;
+        left: 30px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #ffd700;
+    }
+    
+    .milestone {
+        position: relative;
+        margin-bottom: 2rem;
+        padding-left: 80px;
+    }
+    
+    .milestone-date {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 60px;
+        height: 60px;
+        background: #1e3c72;
+        border: 4px solid #ffd700;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 0.8rem;
+        z-index: 2;
+    }
+    
+    .milestone.major .milestone-date {
+        background: #ffd700;
+        color: #1e3c72;
+    }
+    
+    .milestone-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .milestone-title {
+        color: #1e3c72;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .gallery-item {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .gallery-item:hover {
+        transform: scale(1.05);
+    }
+    
+    .gallery-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .gallery-placeholder {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        opacity: 0.3;
+    }
+    
+    .gallery-caption {
+        padding: 1rem;
+        background: white;
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .testimonial {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .testimonial-text {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+    
+    .testimonial-author {
+        font-weight: bold;
+        color: #1e3c72;
+        margin-bottom: 0.5rem;
+    }
+    
+    .testimonial-title {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .testimonial-rating {
+        color: #ffd700;
+        font-size: 1.2rem;
+    }
+    
+    .related-projects {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .related-project-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .related-project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .related-project-image {
+        height: 150px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        opacity: 0.7;
+    }
+    
+    .related-project-content {
+        padding: 1.5rem;
+    }
+    
+    .related-project-title {
+        color: #1e3c72;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .related-project-meta {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .update-item {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .update-date {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .progress-bar {
+        background: #f0f0f0;
+        border-radius: 10px;
+        height: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .progress-fill {
+        background: linear-gradient(90deg, #1e3c72, #2a5298);
+        height: 100%;
+        transition: width 0.3s ease;
+    }
+    
+    .progress-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .project-overview {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .project-sidebar {
+            position: relative;
+            top: auto;
+        }
+        
+        .metrics-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .project-hero {
+            padding: 100px 0 60px;
+        }
+        
+        .project-meta-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .metrics-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .milestone {
+            padding-left: 60px;
+        }
+        
+        .milestone-date {
+            width: 40px;
+            height: 40px;
+            font-size: 0.7rem;
+        }
+        
+        .timeline-line {
+            left: 20px;
+        }
+        
+        .csr-section {
+            padding: 2rem;
+        }
+        
+        .project-sidebar {
+            padding: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Project Hero -->
+<section class="project-hero">
+    <div class="container">
+        <div class="project-header">
+            <div class="project-status">
+                {{ project.get_status_display }}
+                {% if project.completion_year %} • {{ project.completion_year }}{% endif %}
+            </div>
+            
+            <h1>{{ project.title }}</h1>
+            <p class="hero-subtitle">{{ project.client_organization }}</p>
+            <p class="lead">{{ project.short_description }}</p>
+            
+            <div class="project-meta-grid">
+                <div class="meta-item">
+                    <div class="meta-label">Client</div>
+                    <div class="meta-value">{{ project.client_name }}</div>
+                </div>
+                
+                <div class="meta-item">
+                    <div class="meta-label">Location</div>
+                    <div class="meta-value">{{ project.location }}</div>
+                </div>
+                
+                {% if project.area_covered %}
+                <div class="meta-item">
+                    <div class="meta-label">Area Covered</div>
+                    <div class="meta-value">{{ project.area_covered }}</div>
+                </div>
+                {% endif %}
+                
+                <div class="meta-item">
+                    <div class="meta-label">Duration</div>
+                    <div class="meta-value">{{ project.duration }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Overview -->
+<section class="section">
+    <div class="container">
+        <div class="project-overview">
+            <div class="overview-content">
+                <h3>Project Overview</h3>
+                <div class="lead">{{ project.detailed_description|linebreaks }}</div>
+                
+                {% if project.services_provided %}
+                <h4>Services Provided</h4>
+                <div class="services-list">
+                    {% for service in project.services_provided %}
+                    <span class="service-tag">{{ service }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% if project.technologies_used %}
+                <h4 class="mt-4">Technologies Used</h4>
+                <div class="tech-list">
+                    {% for tech in project.technologies_used %}
+                    <span class="tech-tag">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="project-sidebar">
+                <div class="sidebar-section">
+                    <h4 class="sidebar-title">Project Details</h4>
+                    <ul class="info-list">
+                        <li>
+                            <span class="info-label">Category</span>
+                            <span class="info-value">{{ project.category.name }}</span>
+                        </li>
+                        <li>
+                            <span class="info-label">Start Date</span>
+                            <span class="info-value">{{ project.start_date|date:"M Y" }}</span>
+                        </li>
+                        {% if project.end_date %}
+                        <li>
+                            <span class="info-label">End Date</span>
+                            <span class="info-value">{{ project.end_date|date:"M Y" }}</span>
+                        </li>
+                        {% endif %}
+                        {% if project.project_value %}
+                        <li>
+                            <span class="info-label">Project Value</span>
+                            <span class="info-value">{{ project.project_value }}</span>
+                        </li>
+                        {% endif %}
+                        {% if project.team_size %}
+                        <li>
+                            <span class="info-label">Team Size</span>
+                            <span class="info-value">{{ project.team_size }} members</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                
+                {% if project.tags.exists %}
+                <div class="sidebar-section">
+                    <h4 class="sidebar-title">Tags</h4>
+                    <div class="tech-list">
+                        {% for tag in project.tags.all %}
+                        <span class="tech-tag">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="sidebar-section">
+                    <h4 class="sidebar-title">Contact</h4>
+                    <p class="text-muted mb-3">Interested in similar projects?</p>
+                    <a href="{% url 'core:contact' %}" class="btn btn-primary btn-block">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Key Metrics -->
+{% if project.key_metrics %}
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Key Metrics</h2>
+        <div class="metrics-grid">
+            {% for key, value in project.key_metrics.items %}
+            <div class="metric-card">
+                <span class="metric-value">{{ value }}</span>
+                <div class="metric-label">{{ key|title }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Challenge, Solution, Results -->
+{% if project.challenge or project.solution or project.results %}
+<section class="section">
+    <div class="container">
+        <div class="csr-grid">
+            {% if project.challenge %}
+            <div class="csr-section challenge">
+                <div class="csr-icon">🎯</div>
+                <h3 class="csr-title">The Challenge</h3>
+                <div>{{ project.challenge|linebreaks }}</div>
+            </div>
+            {% endif %}
+            
+            {% if project.solution %}
+            <div class="csr-section solution">
+                <div class="csr-icon">💡</div>
+                <h3 class="csr-title">Our Solution</h3>
+                <div>{{ project.solution|linebreaks }}</div>
+            </div>
+            {% endif %}
+            
+            {% if project.results %}
+            <div class="csr-section results">
+                <div class="csr-icon">🏆</div>
+                <h3 class="csr-title">Results & Impact</h3>
+                <div>{{ project.results|linebreaks }}</div>
+                
+                {% if project.success_metrics %}
+                <h4 class="mt-3">Success Metrics</h4>
+                <ul class="mt-2">
+                    {% for metric in project.success_metrics %}
+                    <li>{{ metric }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Project Milestones -->
+{% if milestones %}
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Project Milestones</h2>
+        <div class="milestones-timeline">
+            <div class="timeline-line"></div>
+            {% for milestone in milestones %}
+            <div class="milestone {% if milestone.is_major %}major{% endif %}">
+                <div class="milestone-date">
+                    {{ milestone.date_achieved|date:"M Y" }}
+                </div>
+                <div class="milestone-content">
+                    <h4 class="milestone-title">{{ milestone.title }}</h4>
+                    <p>{{ milestone.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Project Gallery -->
+{% if project_images %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Project Gallery</h2>
+        <div class="gallery-grid">
+            {% for image in project_images %}
+            <div class="gallery-item">
+                {% if image.image %}
+                <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="gallery-image">
+                {% else %}
+                <div class="gallery-placeholder">📷</div>
+                {% endif %}
+                {% if image.caption %}
+                <div class="gallery-caption">{{ image.caption }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Testimonials -->
+{% if testimonials %}
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Client Testimonials</h2>
+        {% for testimonial in testimonials %}
+        <div class="testimonial">
+            <div class="testimonial-text">
+                "{{ testimonial.content }}"
+            </div>
+            <div class="testimonial-author">{{ testimonial.client_name }}</div>
+            <div class="testimonial-title">{{ testimonial.client_title }}, {{ testimonial.client_organization }}</div>
+            <div class="testimonial-rating">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= testimonial.rating %}⭐{% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Project Updates (for ongoing projects) -->
+{% if updates and project.is_ongoing %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Project Updates</h2>
+        <div class="updates-list">
+            {% for update in updates %}
+            <div class="update-item">
+                <div class="update-date">{{ update.update_date|date:"M j, Y" }}</div>
+                <h4>{{ update.title }}</h4>
+                <div>{{ update.content|linebreaks }}</div>
+                {% if update.progress_percentage %}
+                <div class="progress-bar mt-2">
+                    <div class="progress-fill" style="width: {{ update.progress_percentage }}%"></div>
+                    <span class="progress-text">{{ update.progress_percentage }}% Complete</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Related Projects -->
+{% if related_projects %}
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Related Projects</h2>
+        <div class="related-projects">
+            {% for related in related_projects %}
+            <div class="related-project-card">
+                <div class="related-project-image">{{ related.category.icon|default:"📋" }}</div>
+                <div class="related-project-content">
+                    <h4 class="related-project-title">{{ related.title }}</h4>
+                    <div class="related-project-meta">{{ related.client_organization }} • {{ related.start_date|date:"Y" }}</div>
+                    <p>{{ related.short_description|truncatewords:20 }}</p>
+                    <a href="{{ related.get_absolute_url }}" class="btn btn-outline-primary btn-sm">View Project</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="section bg-gradient text-white">
+    <div class="container text-center">
+        <h2>Need Similar Expertise?</h2>
+        <p class="lead">
+            Whether you're planning a similar project or have unique requirements, our team brings the same level of excellence and innovation to every engagement.
+        </p>
+        <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg">Start Your Project</a>
+    </div>
+</section>
+{% endblock %}

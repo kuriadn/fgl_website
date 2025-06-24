@@ -1,0 +1,174 @@
+{% load static %}
+
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-content">
+            <!-- Company Information -->
+            <div class="footer-section">
+                <h5>Fayvad Geosolutions Ltd</h5>
+                <p class="mb-3">PhD-level GIS expertise led by Prof. David Ndegwa Kuria. Transforming Kenya's geospatial landscape through research excellence and innovative solutions.</p>
+                
+                <!-- Achievement highlights -->
+                <div class="achievement-highlights mb-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-trophy text-warning me-2"></i>
+                        <small>ISK Excellence Award 2025</small>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-graduation-cap text-info me-2"></i>
+                        <small>University of Tokyo PhD</small>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-building text-success me-2"></i>
+                        <small>Former Acting CEO, National Land Commission</small>
+                    </div>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="social-links">
+                    <a href="https://linkedin.com/company/fayvad-geosolutions" target="_blank" class="text-light me-3">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                    </a>
+                    <a href="mailto:info@geo.fayvad.com" class="text-light me-3">
+                        <i class="fas fa-envelope fa-lg"></i>
+                    </a>
+                    <a href="tel:+254769069640" class="text-light">
+                        <i class="fas fa-phone fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Services -->
+            <div class="footer-section">
+                <h5>Our Services</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'services:land_surveying' %}">
+                        <i class="fas fa-compass me-2"></i>Land Surveying Solutions
+                    </a></li>
+                    <li><a href="{% url 'services:gis_development' %}">
+                        <i class="fas fa-map me-2"></i>GIS Development & Analytics
+                    </a></li>
+                    <li><a href="{% url 'services:drone_mapping' %}">
+                        <i class="fas fa-helicopter me-2"></i>Drone Mapping & Remote Sensing
+                    </a></li>
+                    <li><a href="{% url 'services:environmental' %}">
+                        <i class="fas fa-leaf me-2"></i>Environmental Intelligence
+                    </a></li>
+                    <li><a href="{% url 'services:government' %}">
+                        <i class="fas fa-building me-2"></i>Government Technology Solutions
+                    </a></li>
+                </ul>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="footer-section">
+                <h5>Contact Information</h5>
+                <div class="contact-info">
+                    <div class="contact-item mb-3">
+                        <i class="fas fa-map-marker-alt text-secondary me-2"></i>
+                        <div>
+                            <strong>Head Office</strong><br>
+                            Grace House 3rd Floor Suite 10<br>
+                            Nkuruma Road, Thika, Kenya
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item mb-3">
+                        <i class="fas fa-phone text-secondary me-2"></i>
+                        <div>
+                            <strong>Phone & WhatsApp</strong><br>
+                            <a href="tel:+254769069640">+254 769 069 640</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item mb-3">
+                        <i class="fas fa-envelope text-secondary me-2"></i>
+                        <div>
+                            <strong>Email</strong><br>
+                            <a href="mailto:info@geo.fayvad.com">info@geo.fayvad.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-clock text-secondary me-2"></i>
+                        <div>
+                            <strong>Business Hours</strong><br>
+                            Mon-Fri: 8:00 AM - 5:00 PM<br>
+                            Sat: By Appointment<br>
+                            Sun: Emergency Only
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Newsletter Signup -->
+            <div class="footer-section">
+                <h5>Stay Updated</h5>
+                <p>Subscribe to our newsletter for GIS industry insights and company updates.</p>
+                
+                <form class="newsletter-form" method="post" action="{% url 'core:newsletter_subscribe' %}">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Quick Links -->
+                <h6>Quick Links</h6>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'core:about' %}">About Us</a></li>
+                    <li><a href="{% url 'portfolio:list' %}">Our Projects</a></li>
+                    <li><a href="{% url 'blog:list' %}">Insights & Innovation</a></li>
+                    <li><a href="{% url 'team:list' %}">Our Team</a></li>
+                    <li><a href="{% url 'core:contact' %}">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <hr class="footer-divider">
+        
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">
+                        &copy; {{ "now"|date:"Y" }} Fayvad Geosolutions Ltd. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="footer-certifications">
+                        <span class="me-3">
+                            <i class="fas fa-certificate text-warning me-1"></i>
+                            Licensed Surveyor #216
+                        </span>
+                        <span class="me-3">
+                            <i class="fas fa-users text-info me-1"></i>
+                            ISK Member #901
+                        </span>
+                        <span>
+                            <i class="fas fa-shield-alt text-success me-1"></i>
+                            ISO Compliant
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Professional Tagline -->
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <small class="text-muted">
+                        <em>"Transforming spatial data into strategic advantage through research-grade excellence"</em>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<button id="back-to-top" class="btn btn-primary position-fixed" style="bottom: 20px; right: 20px; z-index: 1000; display: none;">
+    <i class="fas fa-chevron-up"></i>
+</button>

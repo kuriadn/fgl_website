@@ -1,0 +1,427 @@
+[
+  {
+    "model": "portfolio.projectcategory",
+    "pk": 1,
+    "fields": {
+      "name": "Land Surveying",
+      "slug": "land-surveying",
+      "description": "Traditional and modern land surveying projects including boundary surveys, topographic mapping, and cadastral work",
+      "icon": "📏",
+      "color": "#2c5aa0",
+      "order": 1,
+      "is_active": true,
+      "created_at": "2024-01-10T09:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.projectcategory",
+    "pk": 2,
+    "fields": {
+      "name": "GIS Development",
+      "slug": "gis-development",
+      "description": "Custom GIS applications, spatial analysis systems, and database development projects",
+      "icon": "🗺️",
+      "color": "#28a745",
+      "order": 2,
+      "is_active": true,
+      "created_at": "2024-01-10T09:05:00Z"
+    }
+  },
+  {
+    "model": "portfolio.projectcategory",
+    "pk": 3,
+    "fields": {
+      "name": "Drone Mapping",
+      "slug": "drone-mapping",
+      "description": "UAV-based aerial surveys, photogrammetry, and remote sensing projects",
+      "icon": "🚁",
+      "color": "#17a2b8",
+      "order": 3,
+      "is_active": true,
+      "created_at": "2024-01-10T09:10:00Z"
+    }
+  },
+  {
+    "model": "portfolio.projectcategory",
+    "pk": 4,
+    "fields": {
+      "name": "Environmental Monitoring",
+      "slug": "environmental-monitoring",
+      "description": "Environmental assessment, conservation planning, and ecological monitoring projects",
+      "icon": "🌿",
+      "color": "#6f42c1",
+      "order": 4,
+      "is_active": true,
+      "created_at": "2024-01-10T09:15:00Z"
+    }
+  },
+  {
+    "model": "portfolio.projectcategory",
+    "pk": 5,
+    "fields": {
+      "name": "Infrastructure",
+      "slug": "infrastructure",
+      "description": "Large-scale infrastructure projects including roads, utilities, and urban development",
+      "icon": "🏗️",
+      "color": "#fd7e14",
+      "order": 5,
+      "is_active": true,
+      "created_at": "2024-01-10T09:20:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 1,
+    "fields": {
+      "title": "Kisumu-Malaba SGR Resettlement Action Plan",
+      "slug": "kisumu-malaba-sgr-resettlement-action-plan",
+      "category": 1,
+      "client_name": "Kenya Railways",
+      "client_organization": "Kenya Railways Corporation",
+      "short_description": "Comprehensive survey and mapping for the Kisumu-Malaba Standard Gauge Railway resettlement action plan covering affected communities.",
+      "detailed_description": "Extensive land surveying project for the proposed Standard Gauge Railway Phase 2C from Kisumu to Malaba. The project involved corridor mapping, affected parcel identification, and comprehensive surveying to support the resettlement action plan for displaced communities.",
+      "location": "Kisumu, Vihiga, Siaya, Kakamega and Busia Counties",
+      "area_covered": "300 km corridor",
+      "project_value": "KES 25M",
+      "start_date": "2024-01-15",
+      "end_date": "2025-06-30",
+      "duration": "18 months",
+      "challenge": "The railway corridor passes through densely populated areas with complex land ownership patterns. Accurate mapping of affected parcels and infrastructure was critical for fair compensation and successful resettlement of affected communities.",
+      "solution": "Implemented systematic surveying approach with control densification, precise corridor pegging, and detailed mapping of all affected parcels. Used GPS and total station surveys to ensure accuracy and legal compliance for compensation processes.",
+      "results": "Successfully mapped over 5,000 affected parcels, established comprehensive compensation database, and provided critical data for resettlement planning. The surveys support infrastructure development worth over KES 200 billion.",
+      "services_provided": [
+        "Geodetic control densification",
+        "Railway corridor pegging",
+        "Affected parcel mapping",
+        "Compensation surveys",
+        "Legal documentation support",
+        "Resettlement planning support"
+      ],
+      "technologies_used": [
+        "GNSS/GPS Systems",
+        "Total Stations",
+        "AutoCAD",
+        "ArcGIS Desktop",
+        "Survey grade instruments",
+        "Digital mapping tools"
+      ],
+      "team_size": 12,
+      "key_metrics": {
+        "affected_parcels": "5,000+",
+        "corridor_length": "300 km",
+        "counties_covered": "5",
+        "compensation_database_entries": "5,000+"
+      },
+      "success_metrics": [
+        "100% corridor mapping completed",
+        "All affected parcels identified and surveyed",
+        "Comprehensive compensation database established",
+        "Legal documentation prepared for resettlement"
+      ],
+      "status": "in_progress",
+      "priority": "high",
+      "is_featured": true,
+      "is_case_study": true,
+      "is_confidential": false,
+      "order": 1,
+      "is_active": true,
+      "created_at": "2024-01-15T15:00:00Z",
+      "updated_at": "2024-01-15T15:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 2,
+    "fields": {
+      "title": "Kenya Power Transmission Assets Transfer Survey",
+      "slug": "kenya-power-transmission-assets-transfer-survey",
+      "category": 5,
+      "client_name": "Kenya Power",
+      "client_organization": "Kenya Power and Lighting Company",
+      "short_description": "Comprehensive land and asset verification survey for the transfer of transmission line assets from Kenya Power to KETRACO.",
+      "detailed_description": "Large-scale asset verification project involving comprehensive survey due diligence, boundary assessment, and location confirmation for transmission line assets being transferred from Kenya Power to Kenya Electricity Transmission Company (KETRACO).",
+      "location": "Countrywide",
+      "area_covered": "National coverage",
+      "project_value": "KES 18M",
+      "start_date": "2024-02-01",
+      "end_date": "2025-01-31",
+      "duration": "12 months",
+      "challenge": "The project required verification of hundreds of transmission line assets across the country, with varying land tenure systems and complex ownership patterns. Accurate boundary verification and asset location confirmation was critical for the legal transfer process.",
+      "solution": "Deployed teams nationwide to conduct systematic boundary verification surveys, asset mapping, and land tenure analysis. Used GPS technology and ground truthing to verify asset locations and assess boundary status for each parcel.",
+      "results": "Successfully verified and mapped over 800 transmission line assets, completed boundary assessments for associated land parcels, and provided comprehensive documentation supporting the legal asset transfer process.",
+      "services_provided": [
+        "Asset location verification",
+        "Boundary verification surveys",
+        "Land survey due diligence",
+        "Asset mapping and documentation",
+        "Legal transfer support",
+        "Comprehensive reporting"
+      ],
+      "technologies_used": [
+        "GPS/GNSS systems",
+        "GIS mapping software",
+        "Survey instruments",
+        "Digital documentation tools",
+        "Asset tracking systems"
+      ],
+      "team_size": 15,
+      "key_metrics": {
+        "assets_verified": "800+",
+        "land_parcels_surveyed": "600+",
+        "national_coverage": "47 counties",
+        "transfer_value": "KES 50B+"
+      },
+      "success_metrics": [
+        "100% asset verification completed",
+        "Comprehensive boundary assessment conducted",
+        "Legal documentation prepared for transfer",
+        "Successful facilitation of asset transfer process"
+      ],
+      "status": "in_progress",
+      "priority": "high",
+      "is_featured": true,
+      "is_case_study": true,
+      "is_confidential": false,
+      "order": 2,
+      "is_active": true,
+      "created_at": "2024-02-01T10:00:00Z",
+      "updated_at": "2024-02-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 3,
+    "fields": {
+      "title": "National e-Waste Inventory Development",
+      "slug": "national-e-waste-inventory-development",
+      "category": 4,
+      "client_name": "National Environment Management Authority",
+      "client_organization": "NEMA",
+      "short_description": "Country-wide situation analysis and development of a comprehensive national e-waste inventory using GIS technology.",
+      "detailed_description": "Comprehensive environmental project involving country-wide analysis of electronic waste management and development of a national inventory system. The project combined field data collection, GIS mapping, and database development to create a comprehensive e-waste management tool.",
+      "location": "Countrywide",
+      "area_covered": "National coverage",
+      "project_value": "Confidential",
+      "start_date": "2023-01-15",
+      "end_date": "2023-12-31",
+      "duration": "12 months",
+      "challenge": "Kenya lacked a comprehensive understanding of e-waste generation, management practices, and disposal sites. Creating a national inventory required extensive field work, stakeholder engagement, and development of sustainable data collection systems.",
+      "solution": "Conducted systematic country-wide surveys, developed GIS-based inventory tools, and created standardized data collection protocols. Engaged with stakeholders across the e-waste value chain to build comprehensive database of e-waste flows and management practices.",
+      "results": "Delivered comprehensive national e-waste inventory, identified key waste streams and management gaps, and provided policy recommendations for sustainable e-waste management. The inventory now serves as a baseline for national e-waste policy development.",
+      "services_provided": [
+        "Situation analysis and surveys",
+        "GIS database development",
+        "Data collection tool design",
+        "Stakeholder engagement",
+        "Policy recommendations",
+        "Inventory system development"
+      ],
+      "technologies_used": [
+        "GIS mapping platforms",
+        "Database management systems",
+        "Mobile data collection tools",
+        "Statistical analysis software",
+        "Web-based inventory platforms"
+      ],
+      "team_size": 8,
+      "key_metrics": {
+        "counties_covered": "47",
+        "stakeholders_engaged": "200+",
+        "waste_sites_mapped": "150+",
+        "data_points_collected": "5,000+"
+      },
+      "success_metrics": [
+        "Complete national e-waste baseline established",
+        "Comprehensive inventory system developed",
+        "Policy recommendations delivered",
+        "Stakeholder network established"
+      ],
+      "status": "completed",
+      "priority": "medium",
+      "is_featured": false,
+      "is_case_study": true,
+      "is_confidential": false,
+      "order": 3,
+      "is_active": true,
+      "created_at": "2023-01-15T11:00:00Z",
+      "updated_at": "2023-01-15T11:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 4,
+    "fields": {
+      "title": "Muringato Catchment Environmental Conservation",
+      "slug": "muringato-catchment-environmental-conservation",
+      "category": 4,
+      "client_name": "German Federal Ministry of Education and Research",
+      "client_organization": "BMBF",
+      "short_description": "Development of GIS-based participatory tools and hydrological modeling for environmental conservation of the Muringato catchment area.",
+      "detailed_description": "International research collaboration focused on environmental conservation in the Muringato catchment. The project involved development of participatory GIS tools, hydrological modeling, and stakeholder engagement to support sustainable catchment management practices.",
+      "location": "Nyeri County",
+      "area_covered": "251 km²",
+      "project_value": "€540,000",
+      "start_date": "2021-03-01",
+      "end_date": "2024-02-29",
+      "duration": "3 years",
+      "challenge": "The Muringato catchment faced environmental degradation due to unsustainable land use practices. There was need for scientific tools to support community-based conservation efforts and evidence-based decision making for catchment management.",
+      "solution": "Developed innovative participatory GIS tools for data crowdsourcing, conducted detailed hydrological modeling, and engaged local stakeholders in conservation planning. Combined scientific research with community participation to create sustainable conservation strategies.",
+      "results": "Successfully developed and deployed participatory conservation tools, established baseline environmental data, and created sustainable framework for community-based catchment management. Research findings published in international journals.",
+      "services_provided": [
+        "Participatory GIS tool development",
+        "Hydrological modeling",
+        "Environmental monitoring",
+        "Stakeholder engagement",
+        "Conservation planning",
+        "Research supervision"
+      ],
+      "technologies_used": [
+        "Web-GIS platforms",
+        "Hydrological modeling software",
+        "Remote sensing tools",
+        "Mobile data collection apps",
+        "Statistical analysis packages"
+      ],
+      "team_size": 6,
+      "key_metrics": {
+        "catchment_area": "251 km²",
+        "stakeholders_engaged": "50+",
+        "conservation_sites": "25",
+        "research_publications": "3"
+      },
+      "success_metrics": [
+        "Participatory tools successfully deployed",
+        "Comprehensive hydrological model developed",
+        "Community engagement framework established",
+        "International research collaboration achieved"
+      ],
+      "status": "completed",
+      "priority": "medium",
+      "is_featured": false,
+      "is_case_study": true,
+      "is_confidential": false,
+      "order": 4,
+      "is_active": true,
+      "created_at": "2021-03-01T12:00:00Z",
+      "updated_at": "2021-03-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 5,
+    "fields": {
+      "title": "Land Administration Domain Model Implementation",
+      "slug": "land-administration-domain-model-implementation",
+      "category": 2,
+      "client_name": "USAID",
+      "client_organization": "United States Agency for International Development",
+      "short_description": "Pilot implementation of the internationally recognized Land Administration Domain Model (LADM) for Kenya's land management systems.",
+      "detailed_description": "Pioneering project to adapt and implement the ISO-standard Land Administration Domain Model for Kenya. The project involved customizing LADM to local contexts, developing prototype systems, and demonstrating improved land administration through international best practices.",
+      "location": "Nyeri County",
+      "area_covered": "Pilot area",
+      "project_value": "USD 22,500",
+      "start_date": "2015-01-01",
+      "end_date": "2015-12-31",
+      "duration": "12 months",
+      "challenge": "Kenya's land administration systems lacked standardization and interoperability. There was need to align national land information systems with international standards while addressing local land tenure complexities.",
+      "solution": "Adapted the international LADM standard to Kenya's specific land tenure systems, developed prototype land information system, and demonstrated benefits of standardized land administration. Engaged stakeholders to ensure local relevance and sustainability.",
+      "results": "Successfully demonstrated LADM implementation in Kenya, influenced national land information system design, and established foundation for standardized land administration. Project outcomes informed national land policy development.",
+      "services_provided": [
+        "LADM customization for Kenya",
+        "Prototype system development",
+        "Stakeholder engagement",
+        "Policy recommendations",
+        "Technical documentation",
+        "Training and capacity building"
+      ],
+      "technologies_used": [
+        "LADM standards",
+        "GIS development platforms",
+        "Database management systems",
+        "Web application frameworks",
+        "Land administration software"
+      ],
+      "team_size": 4,
+      "key_metrics": {
+        "stakeholders_engaged": "30+",
+        "parcels_modeled": "500",
+        "system_components": "5",
+        "policy_documents": "3"
+      },
+      "success_metrics": [
+        "LADM successfully adapted for Kenya",
+        "Prototype system demonstrated",
+        "Stakeholder buy-in achieved",
+        "National policy influence established"
+      ],
+      "status": "completed",
+      "priority": "medium",
+      "is_featured": false,
+      "is_case_study": true,
+      "is_confidential": false,
+      "order": 5,
+      "is_active": true,
+      "created_at": "2015-01-01T13:00:00Z",
+      "updated_at": "2015-01-01T13:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 6,
+    "fields": {
+      "title": "Training and Land Policy Development for Tana Water",
+      "slug": "training-land-policy-development-tana-water",
+      "category": 2,
+      "client_name": "Tana Water Works Development Agency",
+      "client_organization": "Tana Water Works Development Agency",
+      "short_description": "Training and formulation of comprehensive Land and Wayleaves Policy for Tana Water Works Development Agency.",
+      "detailed_description": "Specialized consulting project focused on capacity building and policy development for Tana Water Works Development Agency. The project involved training staff on land policy formulation and developing a comprehensive Land and Wayleaves Policy to guide the agency's land acquisition and management processes.",
+      "location": "Embu, Kenya",
+      "area_covered": "Tana catchment area",
+      "project_value": "KES 2M",
+      "start_date": "2024-03-01",
+      "end_date": "2024-05-31",
+      "duration": "3 months",
+      "challenge": "Tana Water Works Development Agency lacked comprehensive policies for land acquisition and wayleaves management. Staff needed capacity building in land policy formulation to support the agency's infrastructure development mandate.",
+      "solution": "Designed and delivered comprehensive training program on land policy formulation and best practices. Developed tailored Land and Wayleaves Policy addressing the agency's specific needs for water infrastructure development and land management.",
+      "results": "Successfully trained agency staff on land policy development, delivered comprehensive Land and Wayleaves Policy, and established framework for systematic land acquisition and management supporting water infrastructure projects.",
+      "services_provided": [
+        "Training on land policy formulation",
+        "Land and wayleaves policy development",
+        "Capacity building workshops",
+        "Policy documentation",
+        "Implementation guidelines",
+        "Stakeholder consultation"
+      ],
+      "technologies_used": [
+        "Policy development frameworks",
+        "Training materials and presentations",
+        "Workshop facilitation tools",
+        "Document management systems",
+        "Consultation platforms"
+      ],
+      "team_size": 3,
+      "key_metrics": {
+        "staff_trained": "25+",
+        "training_hours": "40",
+        "policy_documents": "3",
+        "implementation_guidelines": "5"
+      },
+      "success_metrics": [
+        "Comprehensive training program delivered",
+        "Land and Wayleaves Policy developed",
+        "Staff capacity significantly enhanced",
+        "Implementation framework established"
+      ],
+      "status": "completed",
+      "priority": "medium",
+      "is_featured": false,
+      "is_case_study": true,
+      "is_confidential": false,
+      "order": 6,
+      "is_active": true,
+      "created_at": "2024-03-01T14:00:00Z",
+      "updated_at": "2024-03-01T14:00:00Z"
+    }
+  }
+]

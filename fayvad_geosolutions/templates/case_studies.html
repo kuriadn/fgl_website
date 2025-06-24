@@ -1,0 +1,601 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Fayvad Geosolutions{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="case-studies-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Case Studies</h1>
+            <p class="hero-subtitle">In-depth analysis of our most impactful geospatial projects</p>
+        </div>
+    </div>
+</section>
+
+<!-- Filter Section -->
+<section class="filter-section">
+    <div class="container">
+        <div class="filter-container">
+            <form method="get" action="{% url 'portfolio:case_studies' %}" class="filter-form">
+                <div class="filter-group">
+                    <label for="category">Filter by Category:</label>
+                    <select name="category" id="category" class="form-select" onchange="this.form.submit()">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.slug }}" {% if current_category == category.slug %}selected{% endif %}>
+                                {{ category.name }} ({{ category.case_study_count }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Case Studies Grid -->
+<section class="case-studies-section">
+    <div class="container">
+        {% if case_studies %}
+            <div class="case-studies-count">
+                <p>Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ paginator.count }} case studies</p>
+            </div>
+            
+            <div class="case-studies-grid">
+                {% for case_study in case_studies %}
+                <div class="case-study-card">
+                    <div class="case-study-image">
+                        {% if case_study.featured_image %}
+                        <img src="{{ case_study.featured_image.url }}" alt="{{ case_study.title }}">
+                        {% else %}
+                        <img src="{% static 'images/placeholder-project.jpg' %}" alt="{{ case_study.title }}">
+                        {% endif %}
+                        <div class="case-study-category">{{ case_study.category.name }}</div>
+                    </div>
+                    <div class="case-study-content">
+                        <h3 class="case-study-title">{{ case_study.title }}</h3>
+                        <div class="case-study-meta">
+                            <span class="meta-item"><i class="bi bi-building"></i> {{ case_study.client_name }}</span>
+                            <span class="meta-item"><i class="bi bi-geo-alt"></i> {{ case_study.location }}</span>
+                        </div>
+                        <p class="case-study-description">{{ case_study.short_description|truncatewords:20 }}</p>
+                        <div class="case-study-outcomes">
+                            <h4>Key Outcomes</h4>
+                            <ul>
+                                {% if case_study.outcomes %}
+                                    {% for outcome in case_study.outcomes|slice:":3" %}
+                                    <li>{{ outcome }}</li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li>Successful project completion</li>
+                                    <li>Client requirements fulfilled</li>
+                                    <li>Technical excellence delivered</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <a href="{{ case_study.get_absolute_url }}" class="btn btn-primary">Read Full Case Study</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="pagination-container">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if current_category %}category={{ current_category }}&{% endif %}page=1" aria-label="First">
+                            <span>&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if current_category %}category={{ current_category }}&{% endif %}page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span>&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% if current_category %}category={{ current_category }}&{% endif %}page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if current_category %}category={{ current_category }}&{% endif %}page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span>&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if current_category %}category={{ current_category }}&{% endif %}page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                            <span>&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endif %}
+            
+        {% else %}
+            <div class="no-case-studies">
+                <div class="no-case-studies-icon">
+                    <i class="bi bi-clipboard-data"></i>
+                </div>
+                <h3>No case studies found</h3>
+                {% if current_category %}
+                <p>There are no case studies in this category. Please try another category or view all case studies.</p>
+                <a href="{% url 'portfolio:case_studies' %}" class="btn btn-primary">View All Case Studies</a>
+                {% else %}
+                <p>No case studies are available at this time. Please check back soon as we update our portfolio.</p>
+                <a href="{% url 'portfolio:projects' %}" class="btn btn-primary">Browse Projects</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Case Study Process -->
+<section class="process-section bg-light">
+    <div class="container">
+        <h2 class="section-title">Our Case Study Process</h2>
+        <p class="section-subtitle">How we document and analyze our project successes</p>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3 class="step-title">Project Analysis</h3>
+                    <p class="step-description">We carefully analyze project requirements, challenges, and objectives to identify the core components of each case study.</p>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3 class="step-title">Methodology Documentation</h3>
+                    <p class="step-description">Our team documents the technical approaches, methodologies, and innovations implemented to address client needs.</p>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3 class="step-title">Results Verification</h3>
+                    <p class="step-description">We measure and verify the outcomes and impact of each project, quantifying results wherever possible.</p>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3 class="step-title">Client Feedback</h3>
+                    <p class="step-description">We incorporate direct client feedback to provide a complete picture of project success and client satisfaction.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Want to Become Our Next Success Story?</h2>
+            <p>Contact us today to discuss your geospatial project requirements and discover how our expertise can benefit your organization.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'core:contact' %}" class="btn btn-secondary btn-lg">Start a Conversation</a>
+                <a href="{% url 'services:list' %}" class="btn btn-outline btn-lg">Explore Our Services</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .case-studies-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .case-studies-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><polygon fill="%23e6f3ff" points="0,200 300,150 600,180 900,120 1200,160 1200,400 0,400" opacity="0.3"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .filter-section {
+        background: white;
+        padding: 20px 0;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        position: relative;
+        z-index: 10;
+    }
+    
+    .filter-container {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .filter-form {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+    
+    .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .filter-group label {
+        margin-bottom: 0;
+        font-weight: 500;
+    }
+    
+    .form-select {
+        min-width: 200px;
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+    
+    .case-studies-section {
+        padding: 60px 0;
+    }
+    
+    .case-studies-count {
+        color: #666;
+        margin-bottom: 30px;
+    }
+    
+    .case-studies-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+    }
+    
+    .case-study-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .case-study-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .case-study-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .case-study-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    
+    .case-study-card:hover .case-study-image img {
+        transform: scale(1.05);
+    }
+    
+    .case-study-category {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: rgba(30, 60, 114, 0.8);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .case-study-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .case-study-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #1e3c72;
+    }
+    
+    .case-study-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .case-study-description {
+        color: #555;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+    
+    .case-study-outcomes {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+    .case-study-outcomes h4 {
+        font-size: 1.1rem;
+        color: #1e3c72;
+        margin-bottom: 10px;
+    }
+    
+    .case-study-outcomes ul {
+        padding-left: 20px;
+        margin-bottom: 0;
+    }
+    
+    .case-study-outcomes li {
+        margin-bottom: 5px;
+        color: #555;
+    }
+    
+    .case-study-card .btn {
+        margin-top: auto;
+    }
+    
+    .pagination-container {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        gap: 5px;
+    }
+    
+    .page-item {
+        margin: 0 2px;
+    }
+    
+    .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        background: #f0f4f8;
+        color: #1e3c72;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    
+    .page-item.active .page-link {
+        background: #1e3c72;
+        color: white;
+    }
+    
+    .page-link:hover {
+        background: #dce5f0;
+    }
+    
+    .no-case-studies {
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .no-case-studies-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 25px;
+    }
+    
+    .no-case-studies h3 {
+        color: #1e3c72;
+        margin-bottom: 15px;
+    }
+    
+    .no-case-studies p {
+        color: #666;
+        max-width: 500px;
+        margin: 0 auto 25px;
+    }
+    
+    .process-section {
+        padding: 80px 0;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        color: #1e3c72;
+        margin-bottom: 10px;
+    }
+    
+    .section-subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 50px;
+    }
+    
+    .process-steps {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .process-step {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+        position: relative;
+    }
+    
+    .process-step:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: 30px;
+        top: 60px;
+        bottom: -30px;
+        width: 2px;
+        background: #ddd;
+    }
+    
+    .step-number {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #1e3c72;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .step-content {
+        flex-grow: 1;
+    }
+    
+    .step-title {
+        color: #1e3c72;
+        margin-bottom: 10px;
+    }
+    
+    .step-description {
+        color: #555;
+        line-height: 1.5;
+    }
+    
+    .cta-section {
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+    }
+    
+    .cta-content {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .filter-form {
+            flex-direction: column;
+        }
+        
+        .case-studies-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .hero-title {
+            font-size: 2.2rem;
+        }
+        
+        .process-step {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .process-step:not(:last-child)::after {
+            left: 50%;
+            top: 60px;
+            bottom: -30px;
+            width: 2px;
+            transform: translateX(-50%);
+        }
+    }
+</style>
+{% endblock %}

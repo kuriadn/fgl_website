@@ -1,0 +1,53 @@
+# Core Django
+Django==4.2.7
+djangorestframework==3.14.0
+
+# Database
+psycopg2-binary==2.9.7
+
+# GIS Support
+# django-contrib-gis==0.0.1
+
+# Forms and Content
+django-ckeditor==6.7.0
+django-crispy-forms==2.0
+crispy-bootstrap5==0.7
+
+# Images and Files
+Pillow==10.0.1
+django-cleanup==8.0.0
+
+# Authentication and Security
+django-allauth==0.57.0
+django-cors-headers==4.3.1
+
+# Caching and Performance
+redis==5.0.1
+django-redis==5.4.0
+
+# Email
+django-anymail==10.2
+
+# Utilities
+python-decouple==3.8
+django-extensions==3.2.3
+django-model-utils==4.3.1
+
+# API Documentation
+drf-spectacular==0.26.5
+
+# Pagination
+django-pure-pagination==0.3.0
+
+# Search
+django-haystack==3.2.1
+
+# Tags and Categories
+django-taggit==4.0.0
+
+# Sitemap and SEO
+# django-sitemap==2.3
+django-meta==2.2.0
+
+# Time zones
+pytz==2023.3

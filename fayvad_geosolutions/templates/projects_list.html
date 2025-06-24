@@ -1,0 +1,596 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .portfolio-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .portfolio-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><polygon fill="%23e6f3ff" points="0,200 300,150 600,180 900,120 1200,160 1200,400 0,400" opacity="0.3"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .stat-item {
+        text-align: center;
+        padding: 1.5rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+    }
+    
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ffd700;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+    
+    .filters-section {
+        background: #f8fafc;
+        padding: 2rem 0;
+    }
+    
+    .filters-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    
+    .filter-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    
+    .filter-label {
+        font-weight: 500;
+        color: #1e3c72;
+        margin-right: 0.5rem;
+    }
+    
+    .filter-tag {
+        background: white;
+        color: #666;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .filter-tag:hover,
+    .filter-tag.active {
+        background: #1e3c72;
+        color: white;
+        text-decoration: none;
+    }
+    
+    .search-box {
+        flex: 1;
+        max-width: 300px;
+        position: relative;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        background: white;
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+    }
+    
+    .featured-section {
+        margin-bottom: 4rem;
+    }
+    
+    .featured-project {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        margin-bottom: 3rem;
+    }
+    
+    .featured-image {
+        height: 300px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 4rem;
+        opacity: 0.7;
+    }
+    
+    .featured-content {
+        padding: 3rem;
+    }
+    
+    .featured-badge {
+        background: #ffd700;
+        color: #1e3c72;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+    
+    .featured-title {
+        color: #1e3c72;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    .featured-meta {
+        color: #666;
+        margin-bottom: 1rem;
+    }
+    
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .project-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .project-image {
+        height: 200px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        opacity: 0.7;
+        position: relative;
+    }
+    
+    .project-status {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255, 215, 0, 0.9);
+        color: #1e3c72;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+    
+    .project-content {
+        padding: 2rem;
+    }
+    
+    .project-category {
+        color: #ffd700;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .project-title {
+        color: #1e3c72;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.3;
+    }
+    
+    .project-client {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .project-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .project-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1rem;
+        border-top: 1px solid #f0f0f0;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .project-location {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .project-year {
+        font-weight: bold;
+        color: #1e3c72;
+    }
+    
+    .pagination-wrapper {
+        text-align: center;
+        margin-top: 3rem;
+    }
+    
+    .pagination {
+        display: inline-flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    
+    .page-link {
+        padding: 0.75rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        color: #666;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .page-link:hover,
+    .page-link.active {
+        background: #1e3c72;
+        border-color: #1e3c72;
+        color: white;
+        text-decoration: none;
+    }
+    
+    .no-projects {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #666;
+    }
+    
+    .no-projects-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .featured-project {
+            grid-template-columns: 1fr;
+        }
+        
+        .featured-image {
+            height: 250px;
+        }
+        
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .filters-bar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .search-box {
+            max-width: none;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .portfolio-hero {
+            padding: 100px 0 60px;
+        }
+        
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .featured-content {
+            padding: 2rem;
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .filters-bar {
+            gap: 0.5rem;
+        }
+        
+        .filter-group {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Portfolio Hero -->
+<section class="portfolio-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Our Project Portfolio</h1>
+            <p class="lead">Explore our comprehensive collection of geospatial projects across diverse sectors and applications</p>
+            
+            {% if stats %}
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-value">{{ stats.total_projects }}</span>
+                    <div class="stat-label">Total Projects</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">{{ stats.completed_projects }}</span>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">{{ stats.ongoing_projects }}</span>
+                    <div class="stat-label">Ongoing</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">{{ stats.years_active }}+</span>
+                    <div class="stat-label">Years Active</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Filters Section -->
+<section class="filters-section">
+    <div class="container">
+        <div class="filters-bar">
+            <!-- Search -->
+            <div class="search-box">
+                <form method="get">
+                    <div style="position: relative;">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" name="search" class="search-input" 
+                               placeholder="Search projects..." 
+                               value="{{ request.GET.search }}">
+                    </div>
+                    {% for key, value in request.GET.items %}
+                        {% if key != 'search' and key != 'page' %}
+                        <input type="hidden" name="{{ key }}" value="{{ value }}">
+                        {% endif %}
+                    {% endfor %}
+                </form>
+            </div>
+            
+            <!-- Category Filter -->
+            {% if categories %}
+            <div class="filter-group">
+                <span class="filter-label">Category:</span>
+                <a href="{% url 'portfolio:projects' %}" 
+                   class="filter-tag {% if not request.GET.category %}active{% endif %}">All</a>
+                {% for category in categories %}
+                <a href="?category={{ category.slug }}" 
+                   class="filter-tag {% if request.GET.category == category.slug %}active{% endif %}">
+                    {{ category.icon }} {{ category.name }}
+                </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <!-- Status Filter -->
+            <div class="filter-group">
+                <span class="filter-label">Status:</span>
+                <a href="?status=completed" 
+                   class="filter-tag {% if request.GET.status == 'completed' %}active{% endif %}">Completed</a>
+                <a href="?status=in_progress" 
+                   class="filter-tag {% if request.GET.status == 'in_progress' %}active{% endif %}">Ongoing</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Project -->
+{% if featured_project and not request.GET.search and not request.GET.category %}
+<section class="section featured-section">
+    <div class="container">
+        <h2 class="section-title">Featured Project</h2>
+        
+        <div class="featured-project">
+            <div class="featured-image">
+                {{ featured_project.category.icon|default:"📊" }}
+            </div>
+            <div class="featured-content">
+                <div class="featured-badge">Featured Project</div>
+                <h3 class="featured-title">{{ featured_project.title }}</h3>
+                <div class="featured-meta">
+                    {{ featured_project.client_organization }} • {{ featured_project.location }}
+                </div>
+                <p class="project-description">{{ featured_project.short_description }}</p>
+                <a href="{{ featured_project.get_absolute_url }}" class="btn btn-primary">
+                    View Case Study
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Projects Grid -->
+<section class="section">
+    <div class="container">
+        {% if request.GET.search or request.GET.category or request.GET.status %}
+        <div class="mb-4">
+            <h2 class="section-title">
+                {% if request.GET.search %}
+                    Search Results for "{{ request.GET.search }}"
+                {% elif request.GET.category %}
+                    {% for category in categories %}
+                        {% if category.slug == request.GET.category %}
+                            {{ category.name }} Projects
+                        {% endif %}
+                    {% endfor %}
+                {% elif request.GET.status %}
+                    {{ request.GET.status|capfirst }} Projects
+                {% endif %}
+            </h2>
+            <p class="text-muted">{{ page_obj.paginator.count }} project{{ page_obj.paginator.count|pluralize }} found</p>
+        </div>
+        {% else %}
+        <h2 class="section-title">All Projects</h2>
+        {% endif %}
+        
+        {% if projects %}
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card">
+                <div class="project-image">
+                    {{ project.category.icon|default:"📊" }}
+                    <div class="project-status">{{ project.get_status_display }}</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">{{ project.category.name }}</div>
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <div class="project-client">{{ project.client_organization }}</div>
+                    <p class="project-description">{{ project.short_description|truncatewords:20 }}</p>
+                    
+                    <div class="project-meta">
+                        <div class="project-location">
+                            <span>📍</span>
+                            <span>{{ project.location }}</span>
+                        </div>
+                        <div class="project-year">{{ project.start_date.year }}</div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <a href="{{ project.get_absolute_url }}" class="btn btn-outline-primary btn-sm">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="pagination-wrapper">
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" 
+                   class="page-link">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" 
+                   class="page-link">Previous</a>
+                {% endif %}
+                
+                <span class="page-link active">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" 
+                   class="page-link">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" 
+                   class="page-link">Last</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <!-- No Projects Found -->
+        <div class="no-projects">
+            <div class="no-projects-icon">📋</div>
+            <h3>No projects found</h3>
+            <p>Try adjusting your search criteria or browse all projects.</p>
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-primary">View All Projects</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Popular Tags -->
+{% if popular_tags and not request.GET.search %}
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Popular Project Tags</h2>
+        <div class="text-center">
+            {% for tag in popular_tags %}
+            <a href="{% url 'portfolio:tag' tag.slug %}" class="filter-tag me-2 mb-2 d-inline-block">
+                {{ tag.name }} ({{ tag.project_count }})
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Call to Action -->
+<section class="section bg-gradient text-white">
+    <div class="container text-center">
+        <h2>Ready to Start Your Project?</h2>
+        <p class="lead">
+            Let's discuss how our expertise can bring your geospatial project to life with the same quality and innovation shown in our portfolio.
+        </p>
+        <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg">Start Your Project</a>
+    </div>
+</section>
+{% endblock %}

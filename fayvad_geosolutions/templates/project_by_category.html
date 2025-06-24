@@ -1,0 +1,702 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Fayvad Geosolutions{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="category-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">{{ category.name }} Projects</h1>
+            {% if category.description %}
+            <p class="hero-subtitle">{{ category.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section class="projects-section">
+    <div class="container">
+        <div class="category-info">
+            <div class="category-header">
+                <div class="category-count">{{ projects|length }} project{{ projects|length|pluralize }}</div>
+                <a href="{% url 'portfolio:projects' %}" class="back-link"><i class="bi bi-arrow-left"></i> Back to All Projects</a>
+            </div>
+            
+            {% if category.expertise_areas %}
+            <div class="category-expertise">
+                <h3>Our Expertise in {{ category.name }}</h3>
+                <div class="expertise-tags">
+                    {% for area in category.expertise_areas %}
+                    <span class="expertise-tag">{{ area }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        {% if projects %}
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card">
+                <div class="project-image">
+                    {% if project.featured_image %}
+                    <img src="{{ project.featured_image.url }}" alt="{{ project.title }}">
+                    {% else %}
+                    <img src="{% static 'images/placeholder-project.jpg' %}" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="project-overlay">
+                        {% if project.status == 'completed' %}
+                        <div class="project-status completed">Completed</div>
+                        {% elif project.status == 'in_progress' %}
+                        <div class="project-status ongoing">Ongoing</div>
+                        {% else %}
+                        <div class="project-status">{{ project.status|title }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <div class="project-meta">
+                        <span class="meta-item"><i class="bi bi-building"></i> {{ project.client_name }}</span>
+                        <span class="meta-item"><i class="bi bi-geo-alt"></i> {{ project.location }}</span>
+                    </div>
+                    <p class="project-description">{{ project.short_description|truncatewords:20 }}</p>
+                    
+                    {% if project.tags.all %}
+                    <div class="project-tags">
+                        {% for tag in project.tags.all|slice:":3" %}
+                        <a href="{% url 'portfolio:tag' tag.slug %}" class="project-tag">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <a href="{{ project.get_absolute_url }}" class="btn btn-primary">View Project</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="pagination-container">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span>&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span>&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <span>&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                        <span>&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="no-projects">
+            <div class="no-projects-icon">
+                <i class="bi bi-folder"></i>
+            </div>
+            <h3>No projects found in this category</h3>
+            <p>We currently don't have any projects listed under this category. Please check back later or explore our other project categories.</p>
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-primary">View All Projects</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Category Expertise -->
+<section class="category-expertise-section bg-light">
+    <div class="container">
+        <h2 class="section-title">Our {{ category.name }} Expertise</h2>
+        
+        <div class="expertise-content">
+            <div class="expertise-text">
+                <p>{{ category.detailed_description|default:"Our team has extensive experience in delivering high-quality solutions in this category, combining technical excellence with deep industry knowledge." }}</p>
+                
+                <h3>Key Capabilities</h3>
+                <ul class="capabilities-list">
+                    {% if category.capabilities %}
+                        {% for capability in category.capabilities %}
+                        <li><i class="bi bi-check-circle"></i> {{ capability }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li><i class="bi bi-check-circle"></i> Advanced data collection and processing</li>
+                        <li><i class="bi bi-check-circle"></i> Detailed analysis and interpretation</li>
+                        <li><i class="bi bi-check-circle"></i> Comprehensive reporting and visualization</li>
+                        <li><i class="bi bi-check-circle"></i> Integration with existing systems</li>
+                        <li><i class="bi bi-check-circle"></i> Ongoing support and maintenance</li>
+                    {% endif %}
+                </ul>
+            </div>
+            
+            <div class="expertise-image">
+                {% if category.featured_image %}
+                <img src="{{ category.featured_image.url }}" alt="{{ category.name }} Expertise">
+                {% else %}
+                <img src="{% static 'images/expertise-placeholder.jpg' %}" alt="{{ category.name }} Expertise">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Categories -->
+<section class="related-categories-section">
+    <div class="container">
+        <h2 class="section-title">Explore Other Categories</h2>
+        
+        <div class="categories-grid">
+            {% for related_category in related_categories|default:'' %}
+            <a href="{% url 'portfolio:category' related_category.slug %}" class="category-card">
+                <div class="category-icon">
+                    {% if related_category.icon_class %}
+                    <i class="bi {{ related_category.icon_class }}"></i>
+                    {% else %}
+                    <i class="bi bi-grid"></i>
+                    {% endif %}
+                </div>
+                <h3 class="category-name">{{ related_category.name }}</h3>
+                <p class="category-count">{{ related_category.projects.count }} project{{ related_category.projects.count|pluralize }}</p>
+            </a>
+            {% empty %}
+            <!-- Default categories if none are provided -->
+            <a href="{% url 'portfolio:projects' %}" class="category-card">
+                <div class="category-icon"><i class="bi bi-globe"></i></div>
+                <h3 class="category-name">All Projects</h3>
+                <p class="category-count">View all our work</p>
+            </a>
+            
+            <a href="{% url 'portfolio:featured' %}" class="category-card">
+                <div class="category-icon"><i class="bi bi-star"></i></div>
+                <h3 class="category-name">Featured Projects</h3>
+                <p class="category-count">Our showcase projects</p>
+            </a>
+            
+            <a href="{% url 'portfolio:case_studies' %}" class="category-card">
+                <div class="category-icon"><i class="bi bi-journal-text"></i></div>
+                <h3 class="category-name">Case Studies</h3>
+                <p class="category-count">Detailed project analyses</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Need a Similar Project?</h2>
+            <p>Contact us to discuss how our expertise in {{ category.name }} can benefit your organization.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'core:contact' %}" class="btn btn-secondary btn-lg">Get in Touch</a>
+                <a href="{% url 'services:list' %}" class="btn btn-outline btn-lg">Our Services</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .category-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .category-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><polygon fill="%23e6f3ff" points="0,200 300,150 600,180 900,120 1200,160 1200,400 0,400" opacity="0.3"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .projects-section {
+        padding: 60px 0 80px;
+    }
+    
+    .category-info {
+        margin-bottom: 40px;
+    }
+    
+    .category-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .category-count {
+        font-size: 1.1rem;
+        color: #666;
+    }
+    
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #1e3c72;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .back-link:hover {
+        color: #ffd700;
+    }
+    
+    .category-expertise {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+    
+    .category-expertise h3 {
+        color: #1e3c72;
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+    }
+    
+    .expertise-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .expertise-tag {
+        background: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        color: #555;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        color: #1e3c72;
+        margin-bottom: 50px;
+        position: relative;
+    }
+    
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: #ffd700;
+        margin: 15px auto 0;
+        border-radius: 2px;
+    }
+    
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+    }
+    
+    .project-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .project-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    
+    .project-card:hover .project-image img {
+        transform: scale(1.05);
+    }
+    
+    .project-overlay {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+    
+    .project-status {
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+    
+    .project-status.completed {
+        background: rgba(40, 167, 69, 0.8);
+    }
+    
+    .project-status.ongoing {
+        background: rgba(255, 193, 7, 0.8);
+    }
+    
+    .project-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .project-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #1e3c72;
+    }
+    
+    .project-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .project-description {
+        color: #555;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+    
+    .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .project-tag {
+        background: #f0f4f8;
+        color: #1e3c72;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        text-decoration: none;
+    }
+    
+    .project-tag:hover {
+        background: #dce5f0;
+    }
+    
+    .project-card .btn {
+        margin-top: auto;
+    }
+    
+    .pagination-container {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        gap: 5px;
+    }
+    
+    .page-item {
+        margin: 0 2px;
+    }
+    
+    .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        background: #f0f4f8;
+        color: #1e3c72;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+    
+    .page-item.active .page-link {
+        background: #1e3c72;
+        color: white;
+    }
+    
+    .page-link:hover {
+        background: #dce5f0;
+    }
+    
+    .no-projects {
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .no-projects-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 25px;
+    }
+    
+    .no-projects h3 {
+        color: #1e3c72;
+        margin-bottom: 15px;
+    }
+    
+    .no-projects p {
+        color: #666;
+        max-width: 500px;
+        margin: 0 auto 25px;
+    }
+    
+    .category-expertise-section {
+        padding: 80px 0;
+    }
+    
+    .expertise-content {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 40px;
+        align-items: center;
+    }
+    
+    .expertise-text {
+        color: #555;
+    }
+    
+    .expertise-text p {
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+    
+    .expertise-text h3 {
+        color: #1e3c72;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+    }
+    
+    .capabilities-list {
+        padding-left: 0;
+        list-style: none;
+    }
+    
+    .capabilities-list li {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .capabilities-list i {
+        color: #28a745;
+        font-size: 1.2rem;
+        margin-top: 2px;
+    }
+    
+    .expertise-image img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .related-categories-section {
+        padding: 80px 0;
+    }
+    
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 30px;
+    }
+    
+    .category-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 30px;
+        text-align: center;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: block;
+    }
+    
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .category-icon {
+        width: 70px;
+        height: 70px;
+        background: #f0f4f8;
+        color: #1e3c72;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin: 0 auto 20px;
+    }
+    
+    .category-name {
+        color: #1e3c72;
+        margin-bottom: 10px;
+    }
+    
+    .category-count {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 0;
+    }
+    
+    .cta-section {
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+    }
+    
+    .cta-content {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+        .expertise-content {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .expertise-image {
+            order: -1;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .projects-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .category-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .hero-title {
+            font-size: 2.2rem;
+        }
+    }
+</style>
+{% endblock %}

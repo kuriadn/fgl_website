@@ -1,0 +1,94 @@
+{% load static %}
+
+<header class="site-header navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <!-- Logo/Brand -->
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'core:home' %}">
+            <img src="{% static 'images/logos/fayvad-logo-white.png' %}" alt="Fayvad Geosolutions" height="40" class="me-2">
+            <div>
+                <div class="fw-bold">Fayvad Geosolutions</div>
+                <small class="text-secondary">PhD-Level GIS Expertise</small>
+            </div>
+        </a>
+        
+        <!-- Mobile menu toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Main Navigation -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" 
+                       href="{% url 'core:home' %}">
+                        Home
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" 
+                       href="{% url 'core:about' %}">
+                        About
+                    </a>
+                </li>
+                
+                <!-- Services Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if 'services' in request.resolver_match.url_name %}active{% endif %}" 
+                       href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+                        <li><a class="dropdown-item" href="{% url 'services:list' %}">All Services</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'services:land_surveying' %}">
+                            <i class="fas fa-compass me-2"></i>Land Surveying Solutions
+                        </a></li>
+                        <li><a class="dropdown-item" href="{% url 'services:gis_development' %}">
+                            <i class="fas fa-map me-2"></i>GIS Development & Analytics
+                        </a></li>
+                        <li><a class="dropdown-item" href="{% url 'services:drone_mapping' %}">
+                            <i class="fas fa-helicopter me-2"></i>Drone Mapping & Remote Sensing
+                        </a></li>
+                        <li><a class="dropdown-item" href="{% url 'services:environmental' %}">
+                            <i class="fas fa-leaf me-2"></i>Environmental Intelligence
+                        </a></li>
+                        <li><a class="dropdown-item" href="{% url 'services:government' %}">
+                            <i class="fas fa-building me-2"></i>Government Technology Solutions
+                        </a></li>
+                    </ul>
+                </li>
+                
+                <!-- Portfolio Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if 'portfolio' in request.resolver_match.url_name %}active{% endif %}" 
+                       href="#" id="portfolioDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Portfolio
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="portfolioDropdown">
+                        <li><a class="dropdown-item" href="{% url 'portfolio:projects' %}">All Projects</a></li>
+                        <li><a class="dropdown-item" href="{% url 'portfolio:featured' %}">Featured Work</a></li>
+                        <li><a class="dropdown-item" href="{% url 'portfolio:case_studies' %}">Case Studies</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'portfolio:achievements' %}">Our Achievements</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" 
+                       href="{% url 'core:contact' %}">
+                        Contact
+                    </a>
+                </li>
+                
+                <!-- CTA Button -->
+                <li class="nav-item ms-3">
+                    <a class="btn btn-primary btn-sm" href="{% url 'core:contact' %}">
+                        Get Quote
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>

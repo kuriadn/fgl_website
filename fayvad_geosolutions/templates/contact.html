@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - Fayvad Geosolutions{% endblock %}
+
+{% block meta_description %}Contact Fayvad Geosolutions for professional GIS services, land surveying, and geospatial solutions. Located in Thika, Kenya. Call +254 769 069 640.{% endblock %}
+
+{% block content %}
+<!-- Contact Hero -->
+<section class="section bg-gradient text-white">
+    <div class="container">
+        <div class="text-center">
+            <h1>Get In Touch</h1>
+            <p class="lead">Ready to discuss your geospatial project? We're here to help transform your ideas into reality.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Content -->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <!-- Contact Form -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4">Send Us a Message</h3>
+                        
+                        <form method="post" id="contact-form">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_first_name" class="form-label">First Name *</label>
+                                    <input type="text" name="first_name" id="id_first_name" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_last_name" class="form-label">Last Name *</label>
+                                    <input type="text" name="last_name" id="id_last_name" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_email" class="form-label">Email Address *</label>
+                                    <input type="email" name="email" id="id_email" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_phone" class="form-label">Phone Number</label>
+                                    <input type="tel" name="phone" id="id_phone" class="form-control" placeholder="+254 XXX XXX XXX">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_company" class="form-label">Company/Organization</label>
+                                <input type="text" name="company" id="id_company" class="form-control">
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_inquiry_type" class="form-label">Inquiry Type *</label>
+                                    <select name="inquiry_type" id="id_inquiry_type" class="form-control" required>
+                                        <option value="">Select inquiry type...</option>
+                                        <option value="general">General Inquiry</option>
+                                        <option value="quote">Request Quote</option>
+                                        <option value="support">Technical Support</option>
+                                        <option value="partnership">Partnership</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_subject" class="form-label">Subject *</label>
+                                    <input type="text" name="subject" id="id_subject" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="id_message" class="form-label">Message *</label>
+                                <textarea name="message" id="id_message" rows="6" class="form-control" 
+                                         placeholder="Please provide details about your project requirements, timeline, and any specific needs..." required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="col-lg-4">
+                <div class="contact-info-card">
+                    <h4>Contact Information</h4>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h5>Office Address</h5>
+                            <p>Grace House 3rd Floor Suite 10<br>
+                               Nkuruma Road, Thika<br>
+                               Kenya</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h5>Phone</h5>
+                            <p><a href="tel:+254769069640">+254 769 069 640</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h5>Email</h5>
+                            <p><a href="mailto:info@geo.fayvad.com">services@geo.fayvad.com</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h5>Business Hours</h5>
+                            <p>Monday - Friday: 8:00 AM - 5:00 PM<br>
+                               Saturday: By Appointment<br>
+                               Sunday: Emergency Only</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Contact -->
+                <div class="quick-contact mt-4">
+                    <h5>Need Immediate Assistance?</h5>
+                    <p>For urgent projects or emergency surveying needs:</p>
+                    <a href="tel:+254769069640" class="btn btn-secondary btn-block">
+                        <i class="fas fa-phone me-2"></i>Call Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+{% if faqs %}
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="accordion" id="faqAccordion">
+                    {% for faq in faqs %}
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="faq{{ forloop.counter }}">
+                            <h5>{{ faq.question }}</h5>
+                            <span class="accordion-toggle">+</span>
+                        </div>
+                        <div class="accordion-content">
+                            {{ faq.answer|safe }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-info-card {
+        background: #f8fafc;
+        padding: 2rem;
+        border-radius: 15px;
+        height: fit-content;
+    }
+    
+    .contact-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+    
+    .contact-icon {
+        width: 50px;
+        height: 50px;
+        background: #1e3c72;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .contact-details h5 {
+        color: #1e3c72;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .contact-details p {
+        margin: 0;
+        color: #666;
+    }
+    
+    .contact-details a {
+        color: #1e3c72;
+        text-decoration: none;
+    }
+    
+    .contact-details a:hover {
+        color: #ffd700;
+    }
+    
+    .quick-contact {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        text-align: center;
+        border: 2px solid #ffd700;
+    }
+    
+    .accordion-item {
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+    
+    .accordion-header {
+        background: #f8fafc;
+        padding: 1rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.3s ease;
+    }
+    
+    .accordion-header:hover {
+        background: #e8f1ff;
+    }
+    
+    .accordion-header.active {
+        background: #1e3c72;
+        color: white;
+    }
+    
+    .accordion-toggle {
+        transition: transform 0.3s ease;
+    }
+    
+    .accordion-header.active .accordion-toggle {
+        transform: rotate(45deg);
+    }
+    
+    .accordion-content {
+        display: none;
+        padding: 1.5rem;
+        background: white;
+    }
+    
+    .accordion-content.active {
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize accordion
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            const toggle = this.querySelector('.accordion-toggle');
+            const isActive = this.classList.contains('active');
+            
+            // Close all accordions
+            accordionHeaders.forEach(h => {
+                h.classList.remove('active');
+                h.nextElementSibling.classList.remove('active');
+                h.querySelector('.accordion-toggle').textContent = '+';
+            });
+            
+            // Open clicked accordion if it wasn't active
+            if (!isActive) {
+                this.classList.add('active');
+                content.classList.add('active');
+                toggle.textContent = '−';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

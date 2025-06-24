@@ -1,0 +1,661 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ meta_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .blog-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .blog-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><circle fill="%23e6f3ff" cx="300" cy="150" r="100" opacity="0.3"/><circle fill="%23cce7ff" cx="800" cy="100" r="150" opacity="0.2"/><circle fill="%23b3dbff" cx="1000" cy="250" r="120" opacity="0.25"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .featured-posts {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+    
+    .featured-main {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .featured-main:hover {
+        transform: translateY(-5px);
+    }
+    
+    .featured-image {
+        height: 300px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .featured-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .featured-image::before {
+        content: '📰';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 4rem;
+        opacity: 0.3;
+    }
+    
+    .featured-content {
+        padding: 2rem;
+    }
+    
+    .featured-category {
+        color: #ffd700;
+        font-weight: bold;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .featured-title {
+        font-size: 1.5rem;
+        color: #1e3c72;
+        margin-bottom: 1rem;
+        line-height: 1.3;
+    }
+    
+    .featured-excerpt {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    
+    .featured-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #999;
+    }
+    
+    .featured-side {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .featured-side:hover {
+        transform: translateY(-3px);
+    }
+    
+    .featured-side .featured-image {
+        height: 150px;
+        margin-bottom: 1rem;
+    }
+    
+    .featured-side .featured-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .blog-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 4rem;
+        margin-top: 4rem;
+    }
+    
+    .posts-grid {
+        display: grid;
+        gap: 2rem;
+    }
+    
+    .post-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 0;
+    }
+    
+    .post-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+    
+    .post-image {
+        height: 180px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        position: relative;
+    }
+    
+    .post-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .post-image::before {
+        content: '📊';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        opacity: 0.3;
+    }
+    
+    .post-content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .post-category {
+        color: #ffd700;
+        font-weight: bold;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .post-title {
+        font-size: 1.3rem;
+        color: #1e3c72;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+    }
+    
+    .post-excerpt {
+        color: #666;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+    }
+    
+    .post-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #999;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+    }
+    
+    .post-tags {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+    }
+    
+    .tag {
+        background: #f8fafc;
+        color: #1e3c72;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        text-decoration: none;
+        transition: background 0.3s ease;
+    }
+    
+    .tag:hover {
+        background: #1e3c72;
+        color: white;
+    }
+    
+    .sidebar {
+        background: #f8fafc;
+        padding: 2rem;
+        border-radius: 15px;
+        height: fit-content;
+        position: sticky;
+        top: 100px;
+    }
+    
+    .sidebar-section {
+        margin-bottom: 3rem;
+    }
+    
+    .sidebar-section:last-child {
+        margin-bottom: 0;
+    }
+    
+    .sidebar-title {
+        color: #1e3c72;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #ffd700;
+    }
+    
+    .category-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .category-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .category-item:last-child {
+        border-bottom: none;
+    }
+    
+    .category-link {
+        color: #666;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .category-link:hover {
+        color: #1e3c72;
+    }
+    
+    .category-count {
+        background: #1e3c72;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+    }
+    
+    .popular-post {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .popular-post:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+    
+    .popular-image {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        border-radius: 8px;
+        flex-shrink: 0;
+        position: relative;
+    }
+    
+    .popular-image::before {
+        content: '📄';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5rem;
+        opacity: 0.5;
+    }
+    
+    .popular-content h6 {
+        color: #1e3c72;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+        line-height: 1.3;
+    }
+    
+    .popular-meta {
+        font-size: 0.8rem;
+        color: #999;
+    }
+    
+    .tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .tag-cloud .tag {
+        font-size: 0.85rem;
+    }
+    
+    .subscription-card {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+    }
+    
+    .subscription-card h4 {
+        color: #ffd700;
+        margin-bottom: 1rem;
+    }
+    
+    .subscription-form {
+        margin-top: 1.5rem;
+    }
+    
+    .subscription-form .form-control {
+        margin-bottom: 1rem;
+    }
+    
+    .pagination-wrapper {
+        margin-top: 4rem;
+        text-align: center;
+    }
+    
+    .custom-pagination {
+        display: inline-flex;
+        gap: 0.5rem;
+    }
+    
+    .page-link {
+        padding: 0.75rem 1rem;
+        background: white;
+        border: 1px solid #ddd;
+        color: #1e3c72;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .page-link:hover,
+    .page-link.active {
+        background: #1e3c72;
+        color: white;
+        border-color: #1e3c72;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Include breadcrumbs -->
+{% include 'includes/breadcrumbs.html' %}
+
+<!-- Hero Section -->
+<section class="blog-hero">
+    <div class="hero-content">
+        <div class="container">
+            <h1>Insights & Innovation</h1>
+            <p class="hero-subtitle">Geospatial Intelligence for the Future</p>
+            <p class="hero-description">
+                Explore cutting-edge research, industry insights, and expert perspectives on GIS, 
+                land surveying, drone mapping, and environmental intelligence.
+            </p>
+            
+            <!-- Search Form -->
+            <div class="hero-search mt-4">
+                <form method="get" action="{% url 'blog:search' %}" class="d-flex justify-content-center">
+                    {{ search_form.q }}
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Posts -->
+{% if featured_posts %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Featured Articles</h2>
+        <div class="featured-posts">
+            {% for post in featured_posts %}
+                {% if forloop.first %}
+                <article class="featured-main">
+                    <div class="featured-image">
+                        {% if post.featured_image %}
+                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                        {% endif %}
+                    </div>
+                    <div class="featured-content">
+                        <div class="featured-category">{{ post.category.name }}</div>
+                        <h3 class="featured-title">
+                            <a href="{{ post.get_absolute_url }}" class="text-decoration-none">{{ post.title }}</a>
+                        </h3>
+                        <p class="featured-excerpt">{{ post.excerpt }}</p>
+                        <div class="featured-meta">
+                            <span><i class="fas fa-user me-1"></i>{{ post.author.get_full_name|default:post.author.username }}</span>
+                            <span><i class="fas fa-clock me-1"></i>{{ post.read_time }} min read</span>
+                        </div>
+                    </div>
+                </article>
+                {% else %}
+                <article class="featured-side">
+                    <div class="featured-image">
+                        {% if post.featured_image %}
+                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                        {% endif %}
+                    </div>
+                    <div class="featured-category">{{ post.category.name }}</div>
+                    <h4 class="featured-title">
+                        <a href="{{ post.get_absolute_url }}" class="text-decoration-none">{{ post.title }}</a>
+                    </h4>
+                    <div class="featured-meta">
+                        <span><i class="fas fa-clock me-1"></i>{{ post.read_time }} min</span>
+                    </div>
+                </article>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Main Content -->
+<section class="section">
+    <div class="container">
+        <div class="blog-content">
+            <!-- Posts List -->
+            <main class="posts-main">
+                {% if selected_category %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-filter me-2"></i>
+                        Showing posts in category: <strong>{{ selected_category.name }}</strong>
+                        <a href="{% url 'blog:list' %}" class="ms-2">Clear filter</a>
+                    </div>
+                {% endif %}
+                
+                {% if selected_tag %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-tag me-2"></i>
+                        Showing posts tagged: <strong>#{{ selected_tag.name }}</strong>
+                        <a href="{% url 'blog:list' %}" class="ms-2">Clear filter</a>
+                    </div>
+                {% endif %}
+                
+                <div class="posts-grid">
+                    {% for post in page_obj %}
+                    <article class="post-card">
+                        <div class="post-image">
+                            {% if post.featured_image %}
+                                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                            {% endif %}
+                        </div>
+                        <div class="post-content">
+                            <div>
+                                <div class="post-category">{{ post.category.name }}</div>
+                                <h3 class="post-title">
+                                    <a href="{{ post.get_absolute_url }}" class="text-decoration-none">{{ post.title }}</a>
+                                </h3>
+                                <p class="post-excerpt">{{ post.excerpt }}</p>
+                                <div class="post-tags">
+                                    {% for tag in post.tags.all|slice:":3" %}
+                                        <a href="{% url 'blog:tag' tag.slug %}" class="tag">#{{ tag.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="post-meta">
+                                <span><i class="fas fa-calendar me-1"></i>{{ post.published_at|date:"M d, Y" }}</span>
+                                <span><i class="fas fa-eye me-1"></i>{{ post.view_count }} views</span>
+                            </div>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h4>No posts found</h4>
+                        <p class="text-muted">Try adjusting your search or browse our categories.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <div class="pagination-wrapper">
+                    <nav class="custom-pagination">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1" class="page-link">First</a>
+                            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+                        {% endif %}
+                        
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <span class="page-link active">{{ num }}</span>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Last</a>
+                        {% endif %}
+                    </nav>
+                </div>
+                {% endif %}
+            </main>
+            
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Newsletter Subscription -->
+                <div class="sidebar-section">
+                    <div class="subscription-card">
+                        <h4><i class="fas fa-envelope me-2"></i>Stay Updated</h4>
+                        <p>Get the latest insights delivered to your inbox.</p>
+                        {% crispy subscription_form %}
+                    </div>
+                </div>
+                
+                <!-- Categories -->
+                <div class="sidebar-section">
+                    <h4 class="sidebar-title"><i class="fas fa-folder me-2"></i>Categories</h4>
+                    <ul class="category-list">
+                        {% for category in categories %}
+                        <li class="category-item">
+                            <a href="{% url 'blog:category' category.slug %}" class="category-link">{{ category.name }}</a>
+                            <span class="category-count">{{ category.post_count }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <!-- Popular Posts -->
+                <div class="sidebar-section">
+                    <h4 class="sidebar-title"><i class="fas fa-fire me-2"></i>Popular Posts</h4>
+                    {% for post in popular_posts %}
+                    <div class="popular-post">
+                        <div class="popular-image"></div>
+                        <div class="popular-content">
+                            <h6><a href="{{ post.get_absolute_url }}" class="text-decoration-none">{{ post.title|truncatechars:50 }}</a></h6>
+                            <div class="popular-meta">{{ post.view_count }} views</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Tags -->
+                <div class="sidebar-section">
+                    <h4 class="sidebar-title"><i class="fas fa-tags me-2"></i>Popular Tags</h4>
+                    <div class="tag-cloud">
+                        {% for tag in popular_tags %}
+                            <a href="{% url 'blog:tag' tag.slug %}" class="tag">#{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Newsletter subscription
+    const subscriptionForm = document.getElementById('blog-subscription-form');
+    if (subscriptionForm) {
+        subscriptionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                email: formData.get('email'),
+                name: formData.get('name')
+            };
+            
+            fetch('{% url "blog:subscribe" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    this.innerHTML = '<div class="alert alert-success"><i class="fas fa-check me-2"></i>' + data.message + '</div>';
+                } else {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'alert alert-danger mt-2';
+                    errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>' + data.message;
+                    this.appendChild(errorDiv);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

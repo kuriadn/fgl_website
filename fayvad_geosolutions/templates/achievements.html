@@ -1,0 +1,645 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Fayvad Geosolutions{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="achievements-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Awards & Achievements</h1>
+            <p class="hero-subtitle">Recognition for our commitment to excellence in geospatial innovation</p>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Achievements -->
+{% if featured_achievements %}
+<section class="featured-achievements-section">
+    <div class="container">
+        <h2 class="section-title">Notable Achievements</h2>
+        
+        <div class="featured-achievements-grid">
+            {% for achievement in featured_achievements %}
+            <div class="featured-achievement-card">
+                <div class="achievement-icon">
+                    {% if achievement.icon_class %}
+                    <i class="bi {{ achievement.icon_class }}"></i>
+                    {% else %}
+                    <i class="bi bi-trophy"></i>
+                    {% endif %}
+                </div>
+                <div class="achievement-content">
+                    <h3 class="achievement-title">{{ achievement.title }}</h3>
+                    <div class="achievement-meta">
+                        <span class="achievement-date">{{ achievement.date_achieved|date:"F Y" }}</span>
+                        {% if achievement.awarding_body %}
+                        <span class="achievement-awarding-body">{{ achievement.awarding_body }}</span>
+                        {% endif %}
+                    </div>
+                    <p class="achievement-description">{{ achievement.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Achievement Types -->
+<section class="achievement-types-section">
+    <div class="container">
+        <h2 class="section-title">Our Achievements</h2>
+        
+        {% if achievements_by_type %}
+            {% for type_name, type_achievements in achievements_by_type.items %}
+            <div class="achievement-type">
+                <h3 class="type-title">{{ type_name }}</h3>
+                
+                <div class="achievements-grid">
+                    {% for achievement in type_achievements %}
+                    <div class="achievement-card">
+                        <div class="achievement-header">
+                            <div class="achievement-icon">
+                                {% if achievement.icon_class %}
+                                <i class="bi {{ achievement.icon_class }}"></i>
+                                {% else %}
+                                <i class="bi bi-award"></i>
+                                {% endif %}
+                            </div>
+                            <div class="achievement-date">{{ achievement.date_achieved|date:"F Y" }}</div>
+                        </div>
+                        
+                        <h4 class="achievement-title">{{ achievement.title }}</h4>
+                        
+                        {% if achievement.awarding_body %}
+                        <div class="achievement-awarding-body">{{ achievement.awarding_body }}</div>
+                        {% endif %}
+                        
+                        <p class="achievement-description">{{ achievement.description }}</p>
+                        
+                        {% if achievement.related_url %}
+                        <a href="{{ achievement.related_url }}" target="_blank" class="achievement-link">Learn more <i class="bi bi-arrow-right"></i></a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-achievements">
+                <div class="no-achievements-icon">
+                    <i class="bi bi-trophy"></i>
+                </div>
+                <h3>Achievements coming soon</h3>
+                <p>We're in the process of updating our achievements and awards. Please check back later.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Our Commitments -->
+<section class="commitments-section bg-light">
+    <div class="container">
+        <h2 class="section-title">Our Commitments</h2>
+        <p class="section-subtitle">Principles that drive our pursuit of excellence</p>
+        
+        <div class="commitments-grid">
+            <div class="commitment-card">
+                <div class="commitment-icon">
+                    <i class="bi bi-stars"></i>
+                </div>
+                <h3 class="commitment-title">Quality Excellence</h3>
+                <p class="commitment-description">We maintain the highest standards in every aspect of our work, from data collection to final deliverables.</p>
+            </div>
+            
+            <div class="commitment-card">
+                <div class="commitment-icon">
+                    <i class="bi bi-lightbulb"></i>
+                </div>
+                <h3 class="commitment-title">Continuous Innovation</h3>
+                <p class="commitment-description">We stay at the forefront of geospatial technology, constantly exploring new methodologies and solutions.</p>
+            </div>
+            
+            <div class="commitment-card">
+                <div class="commitment-icon">
+                    <i class="bi bi-book"></i>
+                </div>
+                <h3 class="commitment-title">Research Advancement</h3>
+                <p class="commitment-description">We contribute to the academic field through research publications and collaborations with institutions.</p>
+            </div>
+            
+            <div class="commitment-card">
+                <div class="commitment-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h3 class="commitment-title">Knowledge Sharing</h3>
+                <p class="commitment-description">We actively share our expertise through training, mentorship, and community engagement.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="timeline-section">
+    <div class="container">
+        <h2 class="section-title">Our Journey</h2>
+        
+        <div class="timeline">
+            {% for achievement in achievements|slice:":10" %}
+            <div class="timeline-item">
+                <div class="timeline-date">{{ achievement.date_achieved|date:"Y" }}</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">{{ achievement.title }}</h3>
+                    <p class="timeline-description">{{ achievement.description }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-timeline">
+                <p>Timeline will be populated as we continue to grow and achieve milestones.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Partner with Excellence</h2>
+            <p>Work with a team recognized for quality and innovation in geospatial solutions.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'core:contact' %}" class="btn btn-secondary btn-lg">Contact Us</a>
+                <a href="{% url 'portfolio:projects' %}" class="btn btn-outline btn-lg">View Our Projects</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .achievements-hero {
+        background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+        color: white;
+        padding: 120px 0 80px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .achievements-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f0f8ff" width="1200" height="400"/><polygon fill="%23e6f3ff" points="0,200 300,150 600,180 900,120 1200,160 1200,400 0,400" opacity="0.3"/></svg>');
+        opacity: 0.1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .featured-achievements-section {
+        padding: 80px 0 60px;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 2.2rem;
+        color: #1e3c72;
+        margin-bottom: 50px;
+        position: relative;
+    }
+    
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: #ffd700;
+        margin: 15px auto 0;
+        border-radius: 2px;
+    }
+    
+    .section-subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 40px;
+        margin-top: -30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .featured-achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 30px;
+    }
+    
+    .featured-achievement-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 30px;
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-left: 4px solid #ffd700;
+    }
+    
+    .featured-achievement-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .featured-achievement-card .achievement-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #ffd700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
+    
+    .featured-achievement-card .achievement-content {
+        flex-grow: 1;
+    }
+    
+    .featured-achievement-card .achievement-title {
+        font-size: 1.3rem;
+        color: #1e3c72;
+        margin-bottom: 10px;
+    }
+    
+    .featured-achievement-card .achievement-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .featured-achievement-card .achievement-date {
+        color: #666;
+        font-weight: bold;
+    }
+    
+    .featured-achievement-card .achievement-awarding-body {
+        color: #666;
+        font-style: italic;
+    }
+    
+    .featured-achievement-card .achievement-description {
+        color: #555;
+        line-height: 1.5;
+    }
+    
+    .achievement-types-section {
+        padding: 60px 0 80px;
+    }
+    
+    .achievement-type {
+        margin-bottom: 60px;
+    }
+    
+    .type-title {
+        font-size: 1.8rem;
+        color: #1e3c72;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f0f4f8;
+    }
+    
+    .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    
+    .achievement-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 25px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+    }
+    
+    .achievement-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .achievement-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .achievement-card .achievement-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #ffd700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+    
+    .achievement-card .achievement-date {
+        color: #666;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    
+    .achievement-card .achievement-title {
+        font-size: 1.2rem;
+        color: #1e3c72;
+        margin-bottom: 10px;
+    }
+    
+    .achievement-card .achievement-awarding-body {
+        color: #666;
+        font-size: 0.9rem;
+        font-style: italic;
+        margin-bottom: 15px;
+    }
+    
+    .achievement-card .achievement-description {
+        color: #555;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+    
+    .achievement-card .achievement-link {
+        color: #1e3c72;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .achievement-card .achievement-link:hover {
+        color: #ffd700;
+    }
+    
+    .achievement-card .achievement-link i {
+        transition: transform 0.2s;
+    }
+    
+    .achievement-card .achievement-link:hover i {
+        transform: translateX(3px);
+    }
+    
+    .no-achievements {
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .no-achievements-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 25px;
+    }
+    
+    .no-achievements h3 {
+        color: #1e3c72;
+        margin-bottom: 15px;
+    }
+    
+    .no-achievements p {
+        color: #666;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .commitments-section {
+        padding: 80px 0;
+    }
+    
+    .commitments-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 20px;
+    }
+    
+    .commitment-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 30px;
+        text-align: center;
+        transition: transform 0.3s;
+    }
+    
+    .commitment-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .commitment-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: #f0f4f8;
+        color: #1e3c72;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin: 0 auto 20px;
+    }
+    
+    .commitment-title {
+        color: #1e3c72;
+        margin-bottom: 15px;
+    }
+    
+    .commitment-description {
+        color: #555;
+        line-height: 1.5;
+    }
+    
+    .timeline-section {
+        padding: 80px 0;
+    }
+    
+    .timeline {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 0;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 2px;
+        background: #f0f4f8;
+        transform: translateX(-50%);
+    }
+    
+    .timeline-item {
+        position: relative;
+        margin-bottom: 60px;
+    }
+    
+    .timeline-item:nth-child(odd) {
+        padding-right: calc(50% + 30px);
+        text-align: right;
+    }
+    
+    .timeline-item:nth-child(even) {
+        padding-left: calc(50% + 30px);
+    }
+    
+    .timeline-date {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 70px;
+        height: 40px;
+        background: #1e3c72;
+        color: white;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        transform: translateX(-50%);
+        z-index: 2;
+    }
+    
+    .timeline-content {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 25px;
+    }
+    
+    .timeline-title {
+        color: #1e3c72;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+    }
+    
+    .timeline-description {
+        color: #555;
+        line-height: 1.5;
+        margin-bottom: 0;
+    }
+    
+    .empty-timeline {
+        text-align: center;
+        color: #666;
+        padding: 20px;
+    }
+    
+    .cta-section {
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+    }
+    
+    .cta-content {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+        .featured-achievements-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .timeline-item:nth-child(odd),
+        .timeline-item:nth-child(even) {
+            padding: 0 0 0 70px;
+            text-align: left;
+        }
+        
+        .timeline::before {
+            left: 40px;
+        }
+        
+        .timeline-date {
+            left: 40px;
+            transform: translateX(-50%);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .achievements-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .hero-title {
+            font-size: 2.2rem;
+        }
+    }
+</style>
+{% endblock %}
