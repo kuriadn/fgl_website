@@ -20,8 +20,15 @@ staticfiles/
 
 # Environment variables
 .env
-.env.local
-.env.production
+.env.*
+!.env.prod*
+
+# development things 
+docker-compose.dev.yml
+docker/nginx/dev.conf
+docker/nginx/local.conf
+nginx/dev.conf
+nginx/local.conf
 
 # IDE
 .vscode/
@@ -39,3 +46,9 @@ Thumb.db
 # Deployment
 deploy_keys/
 *.pem
+
+*.pgsql
+*.dump
+*.sql~
+*.mo
+localhost.*
