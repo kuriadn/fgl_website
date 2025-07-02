@@ -34,11 +34,11 @@ DATABASES = {
 }
 
 # Static files
-STATIC_ROOT = '/var/www/fayvad/staticfiles/'
+STATIC_ROOT = '/app/staticfiles/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
-MEDIA_ROOT = '/var/www/fayvad/media/'
+MEDIA_ROOT = '/app/media/'
 
 # WhiteNoise configuration
 WHITENOISE_USE_FINDERS = True
@@ -68,6 +68,7 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
+SESSION_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True
 X_FRAME_OPTIONS = 'DENY'
 
@@ -134,7 +135,6 @@ SESSION_COOKIE_SAMESITE = 'Lax'
 
 # CSRF configuration
 CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SAMESITE = 'Lax'
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
     default='https://geo.fayvad.com,https://www.geo.fayvad.com',
