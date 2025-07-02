@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 submitNewsletterForm(this);
             });
-        }
+        
         
         // Contact form AJAX submission
         const contactForm = document.querySelector('#contact-form');
