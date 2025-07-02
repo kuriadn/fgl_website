@@ -133,7 +133,7 @@ class ContactView(CreateView):
 
 class ContactSuccessView(TemplateView):
     """Contact form success page."""
-    template_name = 'core/contact_success.html'
+    template_name = 'contact_success.html'
 
 class PageDetailView(DetailView):
     """Generic page detail view."""

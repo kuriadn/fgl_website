@@ -1,49 +1,31 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Page Not Found - Fayvad Geosolutions{% endblock %}
+{% block title %}Server Error - Fayvad Geosolutions{% endblock %}
 
 {% block content %}
 <section class="section">
     <div class="container">
         <div class="error-container">
-            <div class="error-code">404</div>
-            <h1>Page Not Found</h1>
-            <p class="error-message">Sorry, the page you're looking for doesn't exist or has been moved.</p>
+            <div class="error-code">500</div>
+            <h1>Server Error</h1>
+            <p class="error-message">We're experiencing technical difficulties. Our team has been notified and is working to resolve the issue.</p>
             
             <div class="error-actions">
-                <a href="{% url 'core:home' %}" class="btn btn-primary btn-lg">Go Home</a>
-                <a href="{% url 'services:list' %}" class="btn btn-outline btn-lg">View Services</a>
+                <a href="/" class="btn btn-primary btn-lg">Go Home</a>
+                <a href="/services/" class="btn btn-outline btn-lg">View Services</a>
             </div>
             
-            <div class="search-section">
-                <h3>Looking for something specific?</h3>
-                <form method="get" action="{% url 'core:search' %}" class="search-form">
-                    <div class="search-input-group">
-                        <input type="text" name="q" placeholder="Search our site..." class="search-input" required>
-                        <button type="submit" class="search-btn">Search</button>
-                    </div>
-                </form>
-            </div>
-            
-            <div class="helpful-links">
-                <h3>Popular Pages</h3>
-                <div class="links-grid">
-                    <a href="{% url 'services:land_surveying' %}" class="link-card">
-                        <i class="bi bi-geo-alt"></i>
-                        <span>Land Surveying</span>
+            <div class="contact-section">
+                <h3>Need immediate assistance?</h3>
+                <div class="contact-options">
+                    <a href="tel:+254769069640" class="contact-link">
+                        <i class="bi bi-telephone"></i>
+                        <span>+254 769 069 640</span>
                     </a>
-                    <a href="{% url 'services:gis_development' %}" class="link-card">
-                        <i class="bi bi-map"></i>
-                        <span>GIS Development</span>
-                    </a>
-                    <a href="{% url 'services:drone_mapping' %}" class="link-card">
-                        <i class="bi bi-camera-video"></i>
-                        <span>Drone Mapping</span>
-                    </a>
-                    <a href="{% url 'core:contact' %}" class="link-card">
+                    <a href="mailto:services@geo.fayvad.com" class="contact-link">
                         <i class="bi bi-envelope"></i>
-                        <span>Contact Us</span>
+                        <span>services@geo.fayvad.com</span>
                     </a>
                 </div>
             </div>
@@ -64,7 +46,7 @@
 .error-code {
     font-size: 8rem;
     font-weight: bold;
-    color: #1e3c72;
+    color: #dc3545;
     line-height: 1;
     margin-bottom: 1rem;
     opacity: 0.1;
@@ -90,87 +72,80 @@
     flex-wrap: wrap;
 }
 
-.search-section {
+.contact-section {
     background: #f8fafc;
     padding: 2rem;
     border-radius: 15px;
-    margin-bottom: 3rem;
 }
 
-.search-section h3 {
+.contact-section h3 {
     color: #1e3c72;
     margin-bottom: 1.5rem;
 }
 
-.search-input-group {
+.contact-options {
     display: flex;
-    max-width: 400px;
-    margin: 0 auto;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-radius: 50px;
-    overflow: hidden;
-}
-
-.search-input {
-    flex: 1;
-    padding: 1rem 1.5rem;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-}
-
-.search-btn {
-    background: #1e3c72;
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease;
-}
-
-.search-btn:hover {
-    background: #2a5298;
-}
-
-.helpful-links h3 {
-    color: #1e3c72;
-    margin-bottom: 2rem;
-}
-
-.links-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-.link-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 10px;
-    text-decoration: none;
-    color: #666;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
+.contact-link {
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #1e3c72;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
-.link-card:hover {
+.contact-link:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
     color: #1e3c72;
 }
 
-.link-card i {
-    font-size: 2rem;
-    color: #1e3c72;
+.contact-link i {
+    font-size: 1.2rem;
 }
 
-.link-card span {
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
     font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #1e3c72;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2a5298;
+    color: white;
+}
+
+.btn-outline {
+    border: 2px solid #1e3c72;
+    color: #1e3c72;
+    background: transparent;
+}
+
+.btn-outline:hover {
+    background: #1e3c72;
+    color: white;
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
 }
 
 @media (max-width: 768px) {
@@ -182,24 +157,17 @@
         font-size: 2rem;
     }
     
-    .error-actions {
+    .error-actions,
+    .contact-options {
         flex-direction: column;
         align-items: center;
     }
     
-    .error-actions .btn {
+    .error-actions .btn,
+    .contact-link {
         width: 100%;
         max-width: 300px;
     }
-    
-    .search-input-group {
-        flex-direction: column;
-        border-radius: 10px;
-    }
-    
-    .search-btn {
-        border-radius: 0 0 10px 10px;
-    }
 }
 </style>
-{% endblock %>
+{% endblock %}
